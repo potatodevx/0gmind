@@ -10,8 +10,8 @@ pragma solidity ^0.8.20;
 contract ContextRegistry {
     // ─── ERC-721 minimal implementation ───────────────────────────────────────
 
-    string public name = "AgentPass";
-    string public symbol = "AGTP";
+    string public name = "0GMind";
+    string public symbol = "0GM";
 
     uint256 private _tokenIds;
 
@@ -24,7 +24,7 @@ contract ContextRegistry {
     event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
 
-    // ─── AgentPass specific ───────────────────────────────────────────────────
+    // ─── 0GMind specific ───────────────────────────────────────────────────
 
     struct ContextData {
         bytes32 blobId;          // 0G Storage root hash (blob ID)
@@ -94,10 +94,10 @@ contract ContextRegistry {
         transferFrom(from, to, tokenId);
     }
 
-    // ─── AgentPass functions ──────────────────────────────────────────────────
+    // ─── 0GMind functions ──────────────────────────────────────────────────
 
     /**
-     * @notice Mint a new AgentPass NFT tied to a 0G Storage blob ID.
+     * @notice Mint a new 0GMind NFT tied to a 0G Storage blob ID.
      * @param blobId The 0G Storage root hash of the stored context.
      * @param modelName The AI model name used for this context.
      * @param description Human-readable description of the context.

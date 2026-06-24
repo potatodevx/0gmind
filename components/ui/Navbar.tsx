@@ -31,10 +31,10 @@ export default function Navbar() {
             className="w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm"
             style={{ background: 'linear-gradient(135deg, #00d4ff, #8b5cf6)', color: '#050a14' }}
           >
-            AP
+            0G
           </div>
           <span className="font-black text-lg" style={{ color: 'white' }}>
-            Agent<span style={{ color: '#00d4ff' }}>Pass</span>
+            0G<span style={{ color: '#00d4ff' }}>Mind</span>
           </span>
         </Link>
 

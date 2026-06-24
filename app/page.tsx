@@ -41,7 +41,7 @@ const HOW_IT_WORKS = [
   {
     step: '01',
     title: 'Paste Your Context',
-    desc: 'Paste any AI conversation, prompt history, or agent memory into AgentPass.',
+    desc: 'Paste any AI conversation, prompt history, or agent memory into 0GMind.',
     color: '#00d4ff',
   },
   {
@@ -150,8 +150,8 @@ export default function HomePage() {
             className="font-black mb-6"
             style={{ fontSize: 'clamp(3rem, 8vw, 7rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}
           >
-            <span className="gradient-text">Agent</span>
-            <span style={{ color: 'white' }}>Pass</span>
+            <span className="gradient-text">0G</span>
+            <span style={{ color: 'white' }}>Mind</span>
           </h1>
 
           {/* Tagline */}
@@ -216,7 +216,7 @@ export default function HomePage() {
               THE PROTOCOL
             </p>
             <h2 className="font-black text-4xl md:text-5xl" style={{ color: 'white' }}>
-              How <span className="gradient-text">AgentPass</span> Works
+              How <span className="gradient-text">0GMind</span> Works
             </h2>
           </div>
 
@@ -252,7 +252,7 @@ export default function HomePage() {
               Built on <span className="gradient-text">Every Layer</span>
             </h2>
             <p className="mt-4 text-lg" style={{ color: 'rgba(255,255,255,0.5)', maxWidth: '500px', margin: '16px auto 0' }}>
-              AgentPass is not a bolt-on. Remove 0G and the product breaks.
+              0GMind is not a bolt-on. Remove 0G and the product breaks.
             </p>
           </div>
 
@@ -349,7 +349,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="py-8 px-6 text-center" style={{ borderTop: '1px solid rgba(0,212,255,0.1)' }}>
         <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.85rem' }}>
-          AgentPass · Built on{' '}
+          0GMind · Built on{' '}
           <a href="https://0g.ai" target="_blank" rel="noopener noreferrer" style={{ color: '#00d4ff' }}>0G</a>
           {' '}· Galileo Testnet · Zero Cup 2026
         </p>

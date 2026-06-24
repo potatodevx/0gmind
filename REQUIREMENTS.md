@@ -1,4 +1,4 @@
-# AgentPass — Requirements & Deployment Checklist
+# 0GMind — Requirements & Deployment Checklist
 
 ## What You Need Before Deploying
 
@@ -39,7 +39,7 @@ Deploy `contracts/ContextRegistry.sol` on 0G Galileo Testnet:
 
 ### 5. Environment Variables
 
-**Frontend** (`agent_pass/.env.local`):
+**Frontend** (`0gmind/.env.local`):
 ```
 NEXT_PUBLIC_API_URL=https://your-backend.railway.app
 NEXT_PUBLIC_ZERO_G_RPC=https://evmrpc-testnet.0g.ai
@@ -48,7 +48,7 @@ NEXT_PUBLIC_CONTEXT_REGISTRY_ADDRESS=0xYourContract
 NEXT_PUBLIC_EXPLORER_URL=https://chainscan-galileo.0g.ai
 ```
 
-**Backend** (`agent_pass_backend/.env`):
+**Backend** (`0gmind_backend/.env`):
 ```
 PORT=3001
 FRONTEND_URL=https://your-frontend.vercel.app
@@ -65,13 +65,13 @@ ZERO_G_COMPUTE_MODEL=glm-4
 
 ### Backend (Railway)
 1. Go to https://railway.app → New Project → Deploy from GitHub
-2. Select `agent_pass_backend` repo
+2. Select `0gmind_backend` repo
 3. Add environment variables from above
 4. Railway auto-detects Node.js and runs `npm start`
 5. Copy the Railway URL → set as `NEXT_PUBLIC_API_URL` in frontend
 
 ### Frontend (Vercel)
-1. Go to https://vercel.com → New Project → Import `agent_pass` repo
+1. Go to https://vercel.com → New Project → Import `0gmind` repo
 2. Add environment variables
 3. Deploy
 

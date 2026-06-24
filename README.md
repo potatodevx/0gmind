@@ -1,8 +1,8 @@
-# AgentPass — Portable AI Memory on 0G
+# 0GMind — Portable AI Memory on 0G
 
 > **Portable AI memory. One blob ID. Any agent. Forever.**
 
-AgentPass is a protocol that gives every AI agent a portable, encrypted memory stored on 0G decentralized infrastructure. Pass a single blob ID between any models, companies, or agents — and they instantly inherit the full context.
+0GMind is a protocol that gives every AI agent a portable, encrypted memory stored on 0G decentralized infrastructure. Pass a single blob ID between any models, companies, or agents — and they instantly inherit the full context.
 
 Built for the [Zero Cup 2026](https://0g.ai/arena/zero-cup) — 0G's global vibe coding tournament.
 
@@ -15,7 +15,7 @@ Every AI agent you use has amnesia by design:
 - Company A's AI knows a customer deeply → hands work to Company B → knows nothing
 - A model gets deprecated → all accumulated context is gone forever
 
-**AgentPass fixes this.** One blob ID. Any agent. Permanent.
+**0GMind fixes this.** One blob ID. Any agent. Permanent.
 
 ---
 
@@ -93,7 +93,7 @@ Agent B has Agent A's complete memory
 ## Project Structure
 
 ```
-agent_pass/                        # Frontend
+0gmind/                        # Frontend
 ├── app/
 │   ├── page.tsx                   # Home — hero + features
 │   ├── store/page.tsx             # Store context
@@ -108,7 +108,7 @@ agent_pass/                        # Frontend
 ├── .env.example
 └── REQUIREMENTS.md                # Deployment checklist
 
-agent_pass_backend/                # Backend
+0gmind_backend/                # Backend
 ├── src/
 │   ├── index.ts                   # Express server
 │   ├── routes/context.ts          # API routes
@@ -129,7 +129,7 @@ agent_pass_backend/                # Backend
 
 ### Backend
 ```bash
-cd agent_pass_backend
+cd 0gmind_backend
 cp .env.example .env
 # Fill in your keys
 npm install
@@ -139,7 +139,7 @@ npm run dev
 
 ### Frontend
 ```bash
-cd agent_pass
+cd 0gmind
 cp .env.example .env.local
 # Set NEXT_PUBLIC_API_URL=http://localhost:3001
 npm install
@@ -185,7 +185,7 @@ npm run dev
 
 Built for the [Zero Cup](https://0g.ai/arena/zero-cup) — 0G's global vibe coding tournament.
 
-**Why AgentPass uses 0G:**
+**Why 0GMind uses 0G:**
 - 0G Storage: 2 GB/s throughput — the only decentralized storage fast enough for real-time AI context
 - 0G Compute with Sealed Inference: Only platform where AI processes data inside a TEE with cryptographic proof
 - 0G Chain: Sub-second finality for instant ownership transfers
