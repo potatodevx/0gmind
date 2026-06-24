@@ -63,10 +63,10 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <div
             className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold"
-            style={{ background: 'rgba(5,150,105,0.1)', border: '1px solid rgba(5,150,105,0.3)', color: '#059669' }}
+            style={{ background: 'rgba(0,145,255,0.1)', border: '1px solid rgba(0,145,255,0.3)', color: '#0091ff' }}
           >
-            <span className="w-1.5 h-1.5 rounded-full pulse-dot" style={{ background: '#059669' }} />
-            0G Testnet
+            <span className="w-1.5 h-1.5 rounded-full pulse-dot" style={{ background: '#0091ff' }} />
+            0G Galileo
           </div>
           <Link href="/store">
             <button className="btn-primary text-sm px-5 py-2">

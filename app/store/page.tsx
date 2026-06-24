@@ -129,9 +129,9 @@ export default function StorePage() {
 
         {/* Wallet Connect Banner */}
         {!account ? (
-          <div className="rounded-2xl p-5 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.3)' }}>
+          <div className="rounded-2xl p-5 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ background: 'rgba(0,145,255,0.06)', border: '1px solid rgba(0,145,255,0.2)' }}>
             <div>
-              <div className="font-semibold mb-0.5" style={{ color: '#d97706' }}>Connect MetaMask to mint on-chain</div>
+              <div className="font-semibold mb-0.5" style={{ color: '#0091ff' }}>Connect MetaMask to mint on-chain</div>
               <p style={{ fontSize: '0.85rem', color: 'rgba(11,27,46,0.5)' }}>
                 Required for 0G Chain NFT ownership. Storage works without it.
               </p>
@@ -146,9 +146,9 @@ export default function StorePage() {
             </button>
           </div>
         ) : (
-          <div className="rounded-xl p-4 mb-6 flex items-center gap-3" style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.25)' }}>
-            <span className="w-2 h-2 rounded-full" style={{ background: '#059669' }} />
-            <span style={{ fontSize: '0.85rem', color: '#059669', fontWeight: 600 }}>Connected</span>
+          <div className="rounded-xl p-4 mb-6 flex items-center gap-3" style={{ background: 'rgba(0,145,255,0.07)', border: '1px solid rgba(0,145,255,0.2)' }}>
+            <span className="w-2 h-2 rounded-full pulse-dot" style={{ background: '#0091ff' }} />
+            <span style={{ fontSize: '0.85rem', color: '#0091ff', fontWeight: 600 }}>Connected</span>
             <span className="font-mono text-xs" style={{ color: 'rgba(11,27,46,0.5)' }}>
               {account.slice(0, 6)}...{account.slice(-4)}
             </span>
@@ -233,7 +233,7 @@ export default function StorePage() {
               <button
                 onClick={() => setIsPublic(!isPublic)}
                 className="relative w-12 h-6 rounded-full transition-all shrink-0"
-                style={{ background: isPublic ? '#059669' : 'rgba(11,27,46,0.18)' }}
+                style={{ background: isPublic ? '#0091ff' : 'rgba(11,27,46,0.18)' }}
               >
                 <span className="absolute top-0.5 w-5 h-5 rounded-full bg-white transition-all" style={{ left: isPublic ? '26px' : '2px' }} />
               </button>
@@ -259,7 +259,7 @@ export default function StorePage() {
                         className="w-2 h-2 rounded-full"
                         style={{
                           background: step === s ? '#0091ff' : (
-                            (step === 'minting' && i === 0) ? '#059669' : 'rgba(11,27,46,0.25)'
+                            (step === 'minting' && i === 0) ? '#0091ff' : 'rgba(11,27,46,0.25)'
                           ),
                         }}
                       />
@@ -292,9 +292,9 @@ export default function StorePage() {
         {step === 'done' && result && (
           <div className="space-y-5 fade-in-up">
             {/* Success */}
-            <div className="rounded-2xl p-6 text-center" style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.3)' }}>
-              <div className="mb-3 flex justify-center" style={{ color: '#059669' }}><IconCheck size={40} /></div>
-              <div className="font-black text-xl mb-1" style={{ color: '#059669' }}>Context Stored & Minted!</div>
+            <div className="rounded-2xl p-6 text-center" style={{ background: 'rgba(0,145,255,0.07)', border: '1px solid rgba(0,145,255,0.2)' }}>
+              <div className="mb-3 flex justify-center" style={{ color: '#0091ff' }}><IconCheck size={40} /></div>
+              <div className="font-black text-xl mb-1 gradient-text">Context Stored & Minted!</div>
               <p style={{ color: 'rgba(11,27,46,0.55)', fontSize: '0.9rem' }}>
                 Stored on 0G Storage {result.mintTxHash ? '+ minted as NFT on 0G Chain' : '(wallet not connected — no NFT minted)'}
               </p>
@@ -304,7 +304,7 @@ export default function StorePage() {
             <div className="rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.3)' }}>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-bold inline-flex items-center gap-1.5" style={{ color: '#0091ff' }}><IconHash size={13} /> BLOB ID (0G Storage Root Hash)</span>
-                <button onClick={() => copy(result.contextId, 'blob')} className="text-xs px-3 py-1 rounded-lg" style={{ background: copied === 'blob' ? 'rgba(16,185,129,0.2)' : 'rgba(0,145,255,0.1)', color: copied === 'blob' ? '#059669' : '#0091ff', border: `1px solid ${copied === 'blob' ? 'rgba(16,185,129,0.4)' : 'rgba(0,145,255,0.3)'}` }}>
+                <button onClick={() => copy(result.contextId, 'blob')} className="text-xs px-3 py-1 rounded-lg" style={{ background: copied === 'blob' ? 'rgba(0,145,255,0.12)' : 'rgba(0,145,255,0.1)', color: copied === 'blob' ? '#0091ff' : '#0091ff', border: `1px solid ${copied === 'blob' ? 'rgba(0,145,255,0.3)' : 'rgba(0,145,255,0.3)'}` }}>
                   {copied === 'blob' ? '✓ Copied' : 'Copy'}
                 </button>
               </div>

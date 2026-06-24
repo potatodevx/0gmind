@@ -102,8 +102,8 @@ export default function DashboardPage() {
           {[
             { label: 'Total On-Chain', value: totalSupply, color: '#0091ff' },
             { label: 'My NFTs', value: onChainContexts.length, color: '#8b5cf6' },
-            { label: 'Public Contexts', value: apiContexts.length, color: '#059669' },
-            { label: 'Network', value: 'Galileo', color: '#d97706', isText: true },
+            { label: 'Public Contexts', value: apiContexts.length, color: '#0091ff' },
+            { label: 'Network', value: 'Galileo', color: '#8b5cf6', isText: true },
           ].map((s, i) => (
             <div key={i} className="card-glow rounded-xl p-5 text-center" style={{ background: '#ffffff' }}>
               <div className="font-black text-2xl mb-1" style={{ color: s.color }}>
@@ -116,9 +116,9 @@ export default function DashboardPage() {
 
         {/* Wallet section */}
         {!account ? (
-          <div className="rounded-2xl p-6 mb-8 text-center" style={{ background: '#ffffff', border: '1px solid rgba(245,158,11,0.3)' }}>
-            <div className="mb-3 flex justify-center" style={{ color: '#d97706' }}><IconPlug size={30} /></div>
-            <div className="font-bold text-lg mb-2" style={{ color: '#d97706' }}>Connect to see your on-chain NFTs</div>
+          <div className="rounded-2xl p-6 mb-8 text-center" style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.2)' }}>
+            <div className="mb-3 flex justify-center" style={{ color: '#0091ff' }}><IconPlug size={30} /></div>
+            <div className="font-bold text-lg mb-2" style={{ color: '#0B1B2E' }}>Connect to see your on-chain NFTs</div>
             <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem', marginBottom: '20px' }}>
               Connect MetaMask to view contexts you own on 0G Chain
             </p>
@@ -127,9 +127,9 @@ export default function DashboardPage() {
             </button>
           </div>
         ) : (
-          <div className="rounded-xl p-4 mb-6 flex items-center gap-3" style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)' }}>
-            <span className="w-2 h-2 rounded-full" style={{ background: '#059669' }} />
-            <span style={{ fontSize: '0.85rem', color: '#059669', fontWeight: 600 }}>Wallet Connected</span>
+          <div className="rounded-xl p-4 mb-6 flex items-center gap-3" style={{ background: 'rgba(0,145,255,0.07)', border: '1px solid rgba(0,145,255,0.2)' }}>
+            <span className="w-2 h-2 rounded-full pulse-dot" style={{ background: '#0091ff' }} />
+            <span style={{ fontSize: '0.85rem', color: '#0091ff', fontWeight: 600 }}>Wallet Connected</span>
             <span className="font-mono text-xs" style={{ color: 'rgba(11,27,46,0.5)' }}>
               {account.slice(0, 8)}...{account.slice(-6)}
             </span>
@@ -169,7 +169,7 @@ export default function DashboardPage() {
                           <span className="font-semibold" style={{ color: '#0B1B2E' }}>
                             {ctx.description || 'Untitled Context'}
                           </span>
-                          <span className="text-xs px-2 py-0.5 rounded" style={{ background: ctx.isPublic ? 'rgba(16,185,129,0.15)' : 'rgba(139,92,246,0.15)', color: ctx.isPublic ? '#059669' : '#8b5cf6', border: `1px solid ${ctx.isPublic ? 'rgba(16,185,129,0.3)' : 'rgba(139,92,246,0.3)'}` }}>
+                          <span className="text-xs px-2 py-0.5 rounded" style={{ background: ctx.isPublic ? 'rgba(0,145,255,0.12)' : 'rgba(139,92,246,0.12)', color: ctx.isPublic ? '#0091ff' : '#8b5cf6', border: `1px solid ${ctx.isPublic ? 'rgba(0,145,255,0.3)' : 'rgba(139,92,246,0.3)'}` }}>
                             {ctx.isPublic ? 'Public' : 'Private'}
                           </span>
                         </div>
@@ -193,7 +193,7 @@ export default function DashboardPage() {
                       <div className="blob-id text-xs px-2 py-1 truncate max-w-xs">
                         {ctx.blobId.slice(0, 26)}...
                       </div>
-                      <button onClick={() => copy(ctx.blobId, ctx.blobId)} style={{ fontSize: '0.75rem', color: copied === ctx.blobId ? '#059669' : 'rgba(11,27,46,0.45)' }}>
+                      <button onClick={() => copy(ctx.blobId, ctx.blobId)} style={{ fontSize: '0.75rem', color: copied === ctx.blobId ? '#0091ff' : 'rgba(11,27,46,0.45)' }}>
                         {copied === ctx.blobId ? '✓ Copied' : 'Copy Blob ID'}
                       </button>
 
@@ -208,7 +208,7 @@ export default function DashboardPage() {
                             className="rounded-lg px-3 py-1 text-xs font-mono focus:outline-none"
                             style={{ background: '#F2F7FF', border: '1px solid rgba(0,145,255,0.3)', color: '#0091ff', width: '200px' }}
                           />
-                          <button onClick={() => handleGrant(ctx.tokenId, grantInput.addr)} disabled={!!txPending} className="text-xs px-3 py-1 rounded-lg" style={{ background: 'rgba(16,185,129,0.2)', color: '#059669', border: '1px solid rgba(16,185,129,0.3)' }}>
+                          <button onClick={() => handleGrant(ctx.tokenId, grantInput.addr)} disabled={!!txPending} className="text-xs px-3 py-1 rounded-lg" style={{ background: 'rgba(0,145,255,0.12)', color: '#0091ff', border: '1px solid rgba(0,145,255,0.3)' }}>
                             {txPending === `grant-${ctx.tokenId}` ? '...' : 'Grant'}
                           </button>
                           <button onClick={() => setGrantInput(null)} style={{ fontSize: '0.75rem', color: 'rgba(11,27,46,0.5)' }}>Cancel</button>
@@ -253,7 +253,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="mt-2 flex items-center gap-2">
                     <div className="blob-id text-xs px-2 py-1 truncate max-w-xs">{ctx.contextId.slice(0, 30)}...</div>
-                    <button onClick={() => copy(ctx.contextId, ctx.contextId)} style={{ fontSize: '0.75rem', color: copied === ctx.contextId ? '#059669' : 'rgba(11,27,46,0.45)' }}>
+                    <button onClick={() => copy(ctx.contextId, ctx.contextId)} style={{ fontSize: '0.75rem', color: copied === ctx.contextId ? '#0091ff' : 'rgba(11,27,46,0.45)' }}>
                       {copied === ctx.contextId ? '✓' : 'Copy'}
                     </button>
                   </div>

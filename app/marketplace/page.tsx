@@ -15,13 +15,14 @@ interface PublicContext {
 }
 
 const MODEL_COLORS: Record<string, string> = {
-  'Claude Sonnet 4.5': '#d97706',
-  'GPT-4o': '#059669',
-  'Gemini 1.5 Pro': '#3b82f6',
-  'GLM-5': '#8b5cf6',
-  'Llama 3.1': '#ef4444',
-  'Mistral Large': '#06b6d4',
-  'Custom': '#64748b',
+  'GLM-5 (0G Compute)': '#0091ff',
+  'Claude Sonnet 4.5': '#8b5cf6',
+  'GPT-4o': '#0091ff',
+  'Gemini 1.5 Pro': '#8b5cf6',
+  'GLM-5': '#0091ff',
+  'Llama 3.1': '#8b5cf6',
+  'Mistral Large': '#0091ff',
+  'Custom': 'rgba(11,27,46,0.45)',
 };
 
 export default function MarketplacePage() {
@@ -30,7 +31,7 @@ export default function MarketplacePage() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('All');
 
-  const allModels = ['All', 'Claude Sonnet 4.5', 'GPT-4o', 'Gemini 1.5 Pro', 'GLM-5', 'Llama 3.1', 'Custom'];
+  const allModels = ['All', 'GLM-5 (0G Compute)', 'Claude Sonnet 4.5', 'GPT-4o', 'Gemini 1.5 Pro', 'Llama 3.1', 'Custom'];
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/context/list`)

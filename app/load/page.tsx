@@ -161,10 +161,10 @@ function LoadContextContent() {
         {context && (
           <div className="space-y-5 fade-in-up">
             {/* Success Banner */}
-            <div className="rounded-2xl p-5 flex items-center gap-4" style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.25)' }}>
-              <div style={{ color: '#059669' }}><IconBox size={30} /></div>
+            <div className="rounded-2xl p-5 flex items-center gap-4" style={{ background: 'rgba(0,145,255,0.07)', border: '1px solid rgba(0,145,255,0.2)' }}>
+              <div style={{ color: '#0091ff' }}><IconBox size={30} /></div>
               <div>
-                <div className="font-bold" style={{ color: '#059669' }}>Context Loaded from 0G Storage</div>
+                <div className="font-bold" style={{ color: '#0091ff' }}>Context Loaded from 0G Storage</div>
                 <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.85rem' }}>
                   Ready to inject into {targetModel} · Stored at {new Date(context.metadata.createdAt).toLocaleDateString()}
                 </p>
@@ -193,7 +193,7 @@ function LoadContextContent() {
                 <button
                   onClick={() => copy(context.content, 'ctx')}
                   className="text-xs px-3 py-1 rounded-lg"
-                  style={{ background: copied === 'ctx' ? 'rgba(16,185,129,0.2)' : 'rgba(0,145,255,0.1)', color: copied === 'ctx' ? '#059669' : '#0091ff', border: `1px solid ${copied === 'ctx' ? 'rgba(16,185,129,0.4)' : 'rgba(0,145,255,0.3)'}` }}
+                  style={{ background: copied === 'ctx' ? 'rgba(0,145,255,0.12)' : 'rgba(0,145,255,0.1)', color: copied === 'ctx' ? '#0091ff' : '#0091ff', border: `1px solid ${copied === 'ctx' ? 'rgba(0,145,255,0.3)' : 'rgba(0,145,255,0.3)'}` }}
                 >
                   {copied === 'ctx' ? '✓ Copied' : 'Copy Context'}
                 </button>
