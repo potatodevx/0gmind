@@ -103,7 +103,7 @@ export default function DashboardPage() {
               <h1 className="font-black text-4xl" style={{ color: '#0B1B2E' }}>Dashboard</h1>
               <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem' }}>
                 Contract:{' '}
-                <a href={`${EXPLORER}/address/${contractAddress}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs" style={{ color: '#0091ff' }}>
+                <a href={`${EXPLORER}/address/${contractAddress}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs" style={{ color: '#0B1B2E' }}>
                   {contractAddress.slice(0, 10)}...{contractAddress.slice(-6)} ↗
                 </a>
               </p>
@@ -117,22 +117,22 @@ export default function DashboardPage() {
         {/* Stats row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {[
-            { label: 'Total On-Chain', value: totalSupply, color: '#0091ff' },
-            { label: 'My NFTs', value: onChainContexts.length, color: '#8b5cf6' },
-            { label: 'Public Contexts', value: publicContexts.length, color: '#0091ff' },
-            { label: 'Network', value: 'Galileo', color: '#8b5cf6' },
+            { label: 'Total On-Chain', value: totalSupply },
+            { label: 'My NFTs', value: onChainContexts.length },
+            { label: 'Public Contexts', value: publicContexts.length },
+            { label: 'Network', value: 'Galileo' },
           ].map((s, i) => (
-            <div key={i} className="card-glow rounded-2xl p-5" style={{ background: '#ffffff', borderTop: `3px solid ${s.color}` }}>
-              <div className="font-black text-3xl mb-1" style={{ color: s.color }}>{s.value}</div>
-              <div style={{ fontSize: '0.78rem', color: 'rgba(11,27,46,0.5)', fontWeight: 600 }}>{s.label}</div>
+            <div key={i} className="rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.08)' }}>
+              <div className="font-black text-3xl mb-1" style={{ color: '#0B1B2E' }}>{s.value}</div>
+              <div style={{ fontSize: '0.72rem', letterSpacing: '0.04em', textTransform: 'uppercase', color: 'rgba(11,27,46,0.45)', fontWeight: 700 }}>{s.label}</div>
             </div>
           ))}
         </div>
 
         {/* Wallet section */}
         {!account ? (
-          <div className="rounded-2xl p-6 mb-8 text-center" style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.2)' }}>
-            <div className="mb-3 flex justify-center" style={{ color: '#0091ff' }}><IconPlug size={30} /></div>
+          <div className="rounded-2xl p-6 mb-8 text-center" style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.2)' }}>
+            <div className="mb-3 flex justify-center" style={{ color: '#0B1B2E' }}><IconPlug size={30} /></div>
             <div className="font-bold text-lg mb-2" style={{ color: '#0B1B2E' }}>Connect to see your on-chain NFTs</div>
             <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem', marginBottom: '20px' }}>
               Connect MetaMask to view contexts you own on 0G Chain
@@ -142,13 +142,13 @@ export default function DashboardPage() {
             </button>
           </div>
         ) : (
-          <div className="rounded-xl p-4 mb-6 flex items-center gap-3" style={{ background: 'rgba(0,145,255,0.07)', border: '1px solid rgba(0,145,255,0.2)' }}>
-            <span className="w-2 h-2 rounded-full pulse-dot" style={{ background: '#0091ff' }} />
-            <span style={{ fontSize: '0.85rem', color: '#0091ff', fontWeight: 600 }}>Wallet Connected</span>
+          <div className="rounded-xl p-4 mb-6 flex items-center gap-3" style={{ background: 'rgba(11,27,46,0.07)', border: '1px solid rgba(11,27,46,0.2)' }}>
+            <span className="w-2 h-2 rounded-full pulse-dot" style={{ background: '#0B1B2E' }} />
+            <span style={{ fontSize: '0.85rem', color: '#0B1B2E', fontWeight: 600 }}>Wallet Connected</span>
             <span className="font-mono text-xs" style={{ color: 'rgba(11,27,46,0.5)' }}>
               {account.slice(0, 8)}...{account.slice(-6)}
             </span>
-            <button onClick={() => loadData(account)} style={{ marginLeft: 'auto', fontSize: '0.8rem', color: '#0091ff' }}>
+            <button onClick={() => loadData(account)} style={{ marginLeft: 'auto', fontSize: '0.8rem', color: '#0B1B2E' }}>
               ↺ Refresh
             </button>
           </div>
@@ -164,7 +164,7 @@ export default function DashboardPage() {
 
             {loading ? (
               <div className="text-center py-10" style={{ color: 'rgba(11,27,46,0.4)' }}>
-                <div className="spinner inline-block w-6 h-6 border-2 rounded-full mb-2" style={{ borderColor: 'rgba(0,145,255,0.2)', borderTopColor: '#0091ff' }} />
+                <div className="spinner inline-block w-6 h-6 border-2 rounded-full mb-2" style={{ borderColor: 'rgba(11,27,46,0.2)', borderTopColor: '#0B1B2E' }} />
                 <div className="text-sm">Loading from 0G Chain...</div>
               </div>
             ) : onChainContexts.length === 0 ? (
@@ -178,13 +178,13 @@ export default function DashboardPage() {
                     <div className="flex items-start justify-between gap-4 mb-3">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-bold px-2 py-0.5 rounded text-xs" style={{ background: 'rgba(139,92,246,0.2)', color: '#8b5cf6', border: '1px solid rgba(139,92,246,0.3)' }}>
+                          <span className="font-bold px-2 py-0.5 rounded text-xs" style={{ background: '#0B1B2E', color: '#ffffff' }}>
                             NFT #{ctx.tokenId}
                           </span>
                           <span className="font-semibold" style={{ color: '#0B1B2E' }}>
                             {ctx.description || 'Untitled Context'}
                           </span>
-                          <span className="text-xs px-2 py-0.5 rounded" style={{ background: ctx.isPublic ? 'rgba(0,145,255,0.12)' : 'rgba(139,92,246,0.12)', color: ctx.isPublic ? '#0091ff' : '#8b5cf6', border: `1px solid ${ctx.isPublic ? 'rgba(0,145,255,0.3)' : 'rgba(139,92,246,0.3)'}` }}>
+                          <span className="text-xs px-2 py-0.5 rounded font-semibold" style={{ background: ctx.isPublic ? '#0B1B2E' : 'transparent', color: ctx.isPublic ? '#ffffff' : 'rgba(11,27,46,0.55)', border: `1px solid rgba(11,27,46,${ctx.isPublic ? 0 : 0.2})` }}>
                             {ctx.isPublic ? 'Public' : 'Private'}
                           </span>
                         </div>
@@ -197,7 +197,7 @@ export default function DashboardPage() {
                           <button className="btn-secondary text-xs px-3 py-2">Load →</button>
                         </Link>
                         <a href={`${EXPLORER}/token/${CONTRACT}?a=${account}`} target="_blank" rel="noopener noreferrer">
-                          <button className="text-xs px-3 py-2 rounded-lg" style={{ background: 'rgba(0,145,255,0.1)', color: '#0091ff', border: '1px solid rgba(0,145,255,0.2)' }}>
+                          <button className="text-xs px-3 py-2 rounded-lg" style={{ background: 'rgba(11,27,46,0.1)', color: '#0B1B2E', border: '1px solid rgba(11,27,46,0.2)' }}>
                             Explorer ↗
                           </button>
                         </a>
@@ -208,7 +208,7 @@ export default function DashboardPage() {
                       <div className="blob-id text-xs px-2 py-1 truncate max-w-xs">
                         {ctx.blobId.slice(0, 26)}...
                       </div>
-                      <button onClick={() => copy(ctx.blobId, ctx.blobId)} style={{ fontSize: '0.75rem', color: copied === ctx.blobId ? '#0091ff' : 'rgba(11,27,46,0.45)' }}>
+                      <button onClick={() => copy(ctx.blobId, ctx.blobId)} style={{ fontSize: '0.75rem', color: copied === ctx.blobId ? '#0B1B2E' : 'rgba(11,27,46,0.45)' }}>
                         {copied === ctx.blobId ? '✓ Copied' : 'Copy Blob ID'}
                       </button>
 
@@ -221,9 +221,9 @@ export default function DashboardPage() {
                             onChange={(e) => setGrantInput({ tokenId: ctx.tokenId, addr: e.target.value })}
                             placeholder="0x... address"
                             className="rounded-lg px-3 py-1 text-xs font-mono focus:outline-none"
-                            style={{ background: '#F2F7FF', border: '1px solid rgba(0,145,255,0.3)', color: '#0091ff', width: '200px' }}
+                            style={{ background: '#F2F7FF', border: '1px solid rgba(11,27,46,0.3)', color: '#0B1B2E', width: '200px' }}
                           />
-                          <button onClick={() => handleGrant(ctx.tokenId, grantInput.addr)} disabled={!!txPending} className="text-xs px-3 py-1 rounded-lg" style={{ background: 'rgba(0,145,255,0.12)', color: '#0091ff', border: '1px solid rgba(0,145,255,0.3)' }}>
+                          <button onClick={() => handleGrant(ctx.tokenId, grantInput.addr)} disabled={!!txPending} className="text-xs px-3 py-1 rounded-lg" style={{ background: 'rgba(11,27,46,0.12)', color: '#0B1B2E', border: '1px solid rgba(11,27,46,0.3)' }}>
                             {txPending === `grant-${ctx.tokenId}` ? '...' : 'Grant'}
                           </button>
                           <button onClick={() => setGrantInput(null)} style={{ fontSize: '0.75rem', color: 'rgba(11,27,46,0.5)' }}>Cancel</button>
@@ -250,7 +250,7 @@ export default function DashboardPage() {
 
           {logLoading ? (
             <div className="text-center py-8" style={{ color: 'rgba(11,27,46,0.4)' }}>
-              <div className="spinner inline-block w-6 h-6 border-2 rounded-full mb-2" style={{ borderColor: 'rgba(0,145,255,0.2)', borderTopColor: '#0091ff' }} />
+              <div className="spinner inline-block w-6 h-6 border-2 rounded-full mb-2" style={{ borderColor: 'rgba(11,27,46,0.2)', borderTopColor: '#0B1B2E' }} />
               <div className="text-sm">Reading events from 0G Chain…</div>
             </div>
           ) : accessLog.length === 0 ? (
@@ -261,17 +261,17 @@ export default function DashboardPage() {
             <div className="rounded-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.1)' }}>
               {accessLog.map((entry, i) => {
                 const badge = entry.type === 'Minted'
-                  ? { label: 'MINTED', color: '#0091ff' }
+                  ? { label: 'MINTED', solid: true }
                   : entry.type === 'Granted'
-                  ? { label: 'GRANTED', color: '#8b5cf6' }
-                  : { label: 'ACCESSED', color: '#0091ff' };
+                  ? { label: 'GRANTED', solid: false }
+                  : { label: 'ACCESSED', solid: false };
                 return (
                   <div
                     key={`${entry.txHash}-${i}`}
                     className="flex items-center gap-3 px-4 py-3 flex-wrap"
                     style={{ borderTop: i === 0 ? 'none' : '1px solid rgba(11,27,46,0.06)' }}
                   >
-                    <span className="text-xs font-bold px-2 py-0.5 rounded shrink-0" style={{ background: `${badge.color}1f`, color: badge.color, border: `1px solid ${badge.color}4d` }}>
+                    <span className="text-xs font-bold px-2 py-0.5 rounded shrink-0" style={{ background: badge.solid ? '#0B1B2E' : 'rgba(11,27,46,0.06)', color: badge.solid ? '#ffffff' : 'rgba(11,27,46,0.6)', border: badge.solid ? 'none' : '1px solid rgba(11,27,46,0.15)' }}>
                       {badge.label}
                     </span>
                     <span style={{ fontSize: '0.82rem', color: '#0B1B2E', fontWeight: 600 }}>
@@ -285,7 +285,7 @@ export default function DashboardPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-mono ml-auto shrink-0"
-                      style={{ fontSize: '0.75rem', color: '#0091ff' }}
+                      style={{ fontSize: '0.75rem', color: '#0B1B2E' }}
                     >
                       block {entry.blockNumber} ↗
                     </a>
@@ -328,7 +328,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="mt-2 flex items-center gap-2">
                       <div className="blob-id text-xs px-2 py-1 truncate max-w-xs">{ctx.blobId.slice(0, 30)}...</div>
-                      <button onClick={() => copy(ctx.blobId, ctx.blobId)} style={{ fontSize: '0.75rem', color: copied === ctx.blobId ? '#0091ff' : 'rgba(11,27,46,0.45)' }}>
+                      <button onClick={() => copy(ctx.blobId, ctx.blobId)} style={{ fontSize: '0.75rem', color: copied === ctx.blobId ? '#0B1B2E' : 'rgba(11,27,46,0.45)' }}>
                         {copied === ctx.blobId ? '✓' : 'Copy'}
                       </button>
                     </div>
