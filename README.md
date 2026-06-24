@@ -84,7 +84,7 @@ Agent B has Agent A's complete memory
 - `ContextRegistry.sol` — ERC-721 for context ownership
 
 **0G Network:**
-- 0G Galileo Testnet (Chain ID: 16601)
+- 0G Galileo Testnet (Chain ID: 16602)
 - 0G Storage (Flow contract)
 - 0G Compute (Sealed Inference)
 
@@ -150,7 +150,7 @@ npm run dev
 ### Deploy Contract
 1. Open `contracts/ContextRegistry.sol` in [Remix](https://remix.ethereum.org)
 2. Compile Solidity 0.8.20+
-3. Deploy to 0G Galileo (Chain ID: 16601, RPC: `https://evmrpc-testnet.0g.ai`)
+3. Deploy to 0G Galileo (Chain ID: 16602, RPC: `https://evmrpc-testnet.0g.ai`)
 4. Copy address → set `NEXT_PUBLIC_CONTEXT_REGISTRY_ADDRESS` in `.env.local`
 
 ---
@@ -174,7 +174,7 @@ npm run dev
 | Property | Value |
 |----------|-------|
 | Network | 0G Galileo Testnet |
-| Chain ID | 16601 |
+| Chain ID | 16602 |
 | RPC | https://evmrpc-testnet.0g.ai |
 | Explorer | https://chainscan-galileo.0g.ai |
 | Faucet | https://faucet.0g.ai |

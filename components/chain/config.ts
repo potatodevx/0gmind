@@ -1,6 +1,6 @@
 // 0G Network Configuration
 export const ZERO_G_CHAIN = {
-  id: 16601,
+  id: 16602,
   name: '0G Galileo Testnet',
   nativeCurrency: { name: '0G', symbol: 'OG', decimals: 18 },
   rpcUrls: {

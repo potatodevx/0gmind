@@ -32,7 +32,7 @@ Deploy `contracts/ContextRegistry.sol` on 0G Galileo Testnet:
 3. Compile with Solidity 0.8.20+
 4. In Deploy & Run:
    - Environment: Injected Provider (MetaMask)
-   - Network: 0G Galileo (Chain ID: 16601)
+   - Network: 0G Galileo (Chain ID: 16602)
    - RPC: https://evmrpc-testnet.0g.ai
 5. Deploy → copy the contract address
 6. Set `NEXT_PUBLIC_CONTEXT_REGISTRY_ADDRESS` in frontend `.env.local`
@@ -43,7 +43,7 @@ Deploy `contracts/ContextRegistry.sol` on 0G Galileo Testnet:
 ```
 NEXT_PUBLIC_API_URL=https://your-backend.railway.app
 NEXT_PUBLIC_ZERO_G_RPC=https://evmrpc-testnet.0g.ai
-NEXT_PUBLIC_CHAIN_ID=16601
+NEXT_PUBLIC_CHAIN_ID=16602
 NEXT_PUBLIC_CONTEXT_REGISTRY_ADDRESS=0xYourContract
 NEXT_PUBLIC_EXPLORER_URL=https://chainscan-galileo.0g.ai
 ```
@@ -79,7 +79,7 @@ ZERO_G_COMPUTE_MODEL=glm-4
 | Property | Value |
 |----------|-------|
 | Network | 0G Galileo Testnet |
-| Chain ID | 16601 |
+| Chain ID | 16602 |
 | RPC | https://evmrpc-testnet.0g.ai |
 | Explorer | https://chainscan-galileo.0g.ai |
 | Faucet | https://faucet.0g.ai |
