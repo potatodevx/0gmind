@@ -101,18 +101,28 @@ function LoadContextContent() {
 
   return (
     <div style={{ background: '#E6F0FF', minHeight: '100vh', paddingTop: '80px' }}>
-      <div className="max-w-3xl mx-auto px-6 py-12">
-        <div className="mb-10">
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        <div className="mb-8">
           <Link href="/" className="text-sm mb-4 inline-flex items-center gap-2" style={{ color: 'rgba(11,27,46,0.5)' }}>
             ← Back to home
           </Link>
-          <h1 className="font-black text-4xl mb-3" style={{ color: '#0B1B2E' }}>
-            Load <span style={{ color: '#0091ff' }}>Context</span>
-          </h1>
-          <p style={{ color: 'rgba(11,27,46,0.55)', fontSize: '1.05rem' }}>
-            Enter a blob ID to load any agent context from 0G Storage into any model.
-          </p>
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0" style={{ background: '#0B1B2E', color: '#fff' }}>
+              <IconBox size={22} />
+            </div>
+            <div>
+              <h1 className="font-black text-4xl" style={{ color: '#0B1B2E' }}>
+                Load <span style={{ color: '#0091ff' }}>Context</span>
+              </h1>
+              <p style={{ color: 'rgba(11,27,46,0.55)' }}>
+                Enter a blob ID to rehydrate any agent memory into any model.
+              </p>
+            </div>
+          </div>
         </div>
+
+        <div className="grid lg:grid-cols-3 gap-8 items-start">
+        <div className="lg:col-span-2">
 
         {/* Input Section */}
         <div className="space-y-5 mb-8">
@@ -270,6 +280,38 @@ function LoadContextContent() {
             </div>
           </div>
         )}
+
+        </div>{/* left column */}
+
+        {/* Sidebar — how loading works */}
+        <aside className="lg:col-span-1 lg:sticky lg:top-24 space-y-4">
+          <div className="rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.1)' }}>
+            <div className="text-xs font-bold mb-4 tracking-wide" style={{ color: 'rgba(11,27,46,0.5)' }}>HOW LOADING WORKS</div>
+            <div className="space-y-4">
+              {[
+                { n: '1', t: 'Paste blob ID', d: 'The portable address of any stored memory.' },
+                { n: '2', t: 'Fetch from 0G', d: 'Blob pulled from 0G Storage, decrypted if private.' },
+                { n: '3', t: 'Log on-chain', d: 'Access recorded on 0G Chain (DA audit trail).' },
+                { n: '4', t: 'Ask anything', d: 'glm-5 on 0G Compute answers using the memory.' },
+              ].map((s) => (
+                <div key={s.n} className="flex gap-3">
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shrink-0" style={{ background: 'rgba(0,145,255,0.12)', color: '#0091ff' }}>{s.n}</div>
+                  <div>
+                    <div className="font-semibold text-sm" style={{ color: '#0B1B2E' }}>{s.t}</div>
+                    <div style={{ fontSize: '0.78rem', color: 'rgba(11,27,46,0.5)', lineHeight: 1.4 }}>{s.d}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl p-5" style={{ background: 'rgba(0,145,255,0.06)', border: '1px solid rgba(0,145,255,0.18)' }}>
+            <div className="font-semibold text-sm mb-1" style={{ color: '#0091ff' }}>No blob ID?</div>
+            <p style={{ fontSize: '0.8rem', color: 'rgba(11,27,46,0.6)', lineHeight: 1.5 }}>
+              Browse the <Link href="/marketplace" style={{ color: '#0091ff', fontWeight: 600 }}>Marketplace</Link> for public contexts, or <Link href="/store" style={{ color: '#0091ff', fontWeight: 600 }}>store</Link> your own first.
+            </p>
+          </div>
+        </aside>
+        </div>{/* grid */}
       </div>
     </div>
   );

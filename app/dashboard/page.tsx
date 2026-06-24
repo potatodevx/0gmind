@@ -94,17 +94,20 @@ export default function DashboardPage() {
       <div className="max-w-5xl mx-auto px-6 py-12">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="font-black text-4xl mb-1" style={{ color: '#0B1B2E' }}>
-              <span style={{ color: '#0B1B2E' }}>Dashboard</span>
-            </h1>
-            <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem' }}>
-              Contract:{' '}
-              <a href={`${EXPLORER}/address/${contractAddress}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs" style={{ color: '#0091ff' }}>
-                {contractAddress.slice(0, 10)}...{contractAddress.slice(-6)} ↗
-              </a>
-            </p>
+        <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0" style={{ background: '#0B1B2E', color: '#fff' }}>
+              <IconLink size={22} />
+            </div>
+            <div>
+              <h1 className="font-black text-4xl" style={{ color: '#0B1B2E' }}>Dashboard</h1>
+              <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem' }}>
+                Contract:{' '}
+                <a href={`${EXPLORER}/address/${contractAddress}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs" style={{ color: '#0091ff' }}>
+                  {contractAddress.slice(0, 10)}...{contractAddress.slice(-6)} ↗
+                </a>
+              </p>
+            </div>
           </div>
           <Link href="/store">
             <button className="btn-primary">+ Store New</button>
@@ -112,18 +115,16 @@ export default function DashboardPage() {
         </div>
 
         {/* Stats row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {[
             { label: 'Total On-Chain', value: totalSupply, color: '#0091ff' },
             { label: 'My NFTs', value: onChainContexts.length, color: '#8b5cf6' },
             { label: 'Public Contexts', value: publicContexts.length, color: '#0091ff' },
-            { label: 'Network', value: 'Galileo', color: '#8b5cf6', isText: true },
+            { label: 'Network', value: 'Galileo', color: '#8b5cf6' },
           ].map((s, i) => (
-            <div key={i} className="card-glow rounded-xl p-5 text-center" style={{ background: '#ffffff' }}>
-              <div className="font-black text-2xl mb-1" style={{ color: s.color }}>
-                {s.isText ? s.value : s.value}
-              </div>
-              <div style={{ fontSize: '0.78rem', color: 'rgba(11,27,46,0.5)' }}>{s.label}</div>
+            <div key={i} className="card-glow rounded-2xl p-5" style={{ background: '#ffffff', borderTop: `3px solid ${s.color}` }}>
+              <div className="font-black text-3xl mb-1" style={{ color: s.color }}>{s.value}</div>
+              <div style={{ fontSize: '0.78rem', color: 'rgba(11,27,46,0.5)', fontWeight: 600 }}>{s.label}</div>
             </div>
           ))}
         </div>

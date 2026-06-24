@@ -1,0 +1,239 @@
+================================================================
+ 0GMIND — PORTABLE AI MEMORY ON 0G
+ The Zero Cup 2026  ·  Galileo Testnet
+================================================================
+
+
+----------------------------------------------------------------
+ONE-LINER
+----------------------------------------------------------------
+
+0GMind turns any AI agent's memory into a portable, ownable
+asset. Store a context once on 0G, get one blob ID, and any
+model — anywhere — can inherit the full memory forever.
+
+
+----------------------------------------------------------------
+THE 30-SECOND PITCH
+----------------------------------------------------------------
+
+Every AI agent today is born with amnesia.
+
+Switch from GPT to Claude? Memory gone.
+Restart your agent? Memory gone.
+Want a second agent to continue the work? You copy-paste a
+giant prompt and pray.
+
+AI memory is locked inside one provider, one session, one
+silo. It is not portable, not owned, and not verifiable.
+
+0GMind fixes this. We make memory a first-class, on-chain
+asset:
+
+  - STORED on 0G Storage (encrypted, decentralized, permanent)
+  - PROCESSED on 0G Compute (sealed inference, glm-5)
+  - OWNED on 0G Chain (every context is an ERC-721 NFT)
+  - AUDITED on 0G DA (every access logged on-chain, forever)
+
+One blob ID is all you hand off. Any agent loads it and
+instantly knows everything the previous agent knew.
+
+
+----------------------------------------------------------------
+THE PAIN POINT (why this matters)
+----------------------------------------------------------------
+
+1. MEMORY DIES WITH THE MODEL
+   Context windows are temporary. Close the tab, lose the
+   brain. There is no "save file" for an AI's mind.
+
+2. MEMORY IS NOT PORTABLE
+   You cannot take a Claude conversation and continue it in
+   GPT, or hand your agent's state to a teammate's agent.
+
+3. MEMORY IS NOT OWNED
+   The context you spent hours building belongs to the
+   provider, not to you. You cannot sell it, license it,
+   transfer it, or revoke it.
+
+4. NO AUDIT TRAIL
+   You have zero proof of who accessed your agent's memory
+   or when.
+
+These are not small UX problems. As the world moves to
+multi-agent systems, portable + ownable + verifiable memory
+becomes critical infrastructure. That layer does not exist
+today. 0GMind is that layer.
+
+
+----------------------------------------------------------------
+HOW 0GMIND SOLVES IT (the magic)
+----------------------------------------------------------------
+
+We treat an AI context like a file with an address.
+
+  context  ->  encrypt  ->  0G Storage  ->  blob ID
+                                              |
+                                              v
+                                       mint NFT on 0G Chain
+                                              |
+                                              v
+              any agent  <-  load by blob ID  <-  0G Compute
+
+The blob ID is the portable memory address. Whoever holds it
+(and has access rights) can rehydrate the full agent state
+into ANY model through 0G Compute — no provider lock-in.
+
+
+----------------------------------------------------------------
+WHY WE USE EVERY LAYER OF 0G (not a bolt-on)
+----------------------------------------------------------------
+
+This is the key point for judging: remove any single 0G layer
+and the product breaks. We are not "using 0G for storage" —
+we are using the FULL stack as designed.
+
+  0G STORAGE  — the memory itself. Encrypted context blobs
+                live here. Decentralized and permanent. This
+                is what makes memory portable.
+
+  0G COMPUTE  — the brain. Inference runs on 0G's
+                decentralized GPU network (glm-5). For private
+                contexts, inference happens inside a TEE so
+                even node operators never see the data.
+
+  0G CHAIN    — the ownership. Each context is an ERC-721 NFT.
+                Transfer it, license it, grant access, revoke
+                access — all on-chain.
+
+  0G DA       — the trust. Every access fires an on-chain
+                ContextAccessed event. A permanent,
+                uncensorable audit trail of who used your
+                memory.
+
+
+----------------------------------------------------------------
+LIVE DEMO — STEP BY STEP (walk the judges through this)
+----------------------------------------------------------------
+
+URL: https://0gmind.vercel.app
+
+STEP 0 — HOME
+  Show the hero. Say: "Every agent is born with amnesia.
+  0GMind gives AI a permanent, portable, ownable brain on 0G."
+  Scroll to the "Built on every layer" section — point out we
+  use Storage, Compute, Chain, and DA together.
+
+STEP 1 — STORE A CONTEXT  (page: /store)
+  - Connect MetaMask (auto-switches to 0G Galileo Testnet).
+  - Paste an AI conversation into the text box.
+    (See the sample context to paste at the bottom of this file.)
+  - Pick the model = "GLM-5 (0G Compute)".
+  - Add a description, e.g. "DeFi vault planning".
+  - Toggle PUBLIC on (so it shows in the marketplace).
+  - Click "Store on 0G + Mint NFT".
+  - Watch the two-step flow:
+        (1) Stored on 0G Storage  -> returns a BLOB ID
+        (2) Minted as NFT on 0G Chain -> returns a Token ID + tx
+  - Point out the AI SUMMARY — that was generated live by
+    glm-5 on 0G Compute, not OpenAI.
+  - Copy the blob ID.
+
+STEP 2 — LOAD THE CONTEXT INTO ANY MODEL  (page: /load)
+  - Paste the blob ID.
+  - Pick a target model.
+  - Click Load. The full context comes back from 0G Storage.
+  - Notice the line: "Access logged on 0G Chain" with a tx
+    link — that is the 0G DA audit trail firing live.
+  - In the chat box, ask a question that only the stored
+    context can answer (e.g. "How much does the bullet train
+    cost?"). The answer comes from glm-5 on 0G Compute USING
+    the loaded memory. This is the whole thesis in one click:
+    a fresh model just inherited another agent's brain.
+
+STEP 3 — DASHBOARD  (page: /dashboard)
+  - "Your On-Chain Context NFTs" — the memories you own.
+  - "Access Log (0G DA)" — the live on-chain audit trail of
+    every mint, grant, and access. Click any row to open the
+    transaction on the explorer.
+  - "Public Contexts" — read directly from 0G Chain, so they
+    persist forever (not from a database).
+
+STEP 4 — MARKETPLACE  (page: /marketplace)
+  - Browse public agent memories. Anyone can load any of
+    these into their own model. This is the network effect:
+    a shared, ownable memory layer for all agents.
+
+
+----------------------------------------------------------------
+HOW WE LOAD THE DATA (the technical truth, said simply)
+----------------------------------------------------------------
+
+- When you STORE: the context is (optionally encrypted),
+  written to 0G Storage, and the storage root hash becomes the
+  blob ID. That blob ID is then registered on 0G Chain as an
+  NFT you own.
+
+- When you LOAD: we take the blob ID, fetch the blob back from
+  0G Storage, decrypt it if private, and feed it as the system
+  context to glm-5 on 0G Compute. The model answers as if it
+  had the full prior memory.
+
+- Right now we store the context as PLAIN TEXT (conversations,
+  system prompts, agent state). The exact same pipeline works
+  for FILES — PDFs, JSON memory dumps, embeddings, model
+  checkpoints — because 0G Storage is file-native. Text is
+  simply our v1 demo surface; file upload is a drop-in next
+  step with zero architecture change.
+
+
+----------------------------------------------------------------
+WHY WE WIN
+----------------------------------------------------------------
+
+- REAL, not mocked. Live on testnet: real 0G Storage uploads,
+  real glm-5 inference on 0G Compute, real NFTs and real
+  on-chain access logs on 0G Chain. Every claim is verifiable
+  on the explorer.
+
+- FULL-STACK 0G. We don't use one feature — we use Storage +
+  Compute + Chain + DA, each doing exactly what it's built
+  for. Pull one out and the product collapses.
+
+- A REAL CATEGORY. Portable, ownable AI memory is missing
+  infrastructure for the multi-agent era. This isn't a toy —
+  it's a primitive other apps will build on.
+
+- IT DEMOS IN 60 SECONDS. Store once, hand off one ID, watch a
+  different model inherit the brain. The "aha" is instant.
+
+
+----------------------------------------------------------------
+SAMPLE CONTEXT TO PASTE IN THE DEMO  (copy from below)
+----------------------------------------------------------------
+
+User: I'm planning a 5-day trip to Japan in April. I want
+temples, great sushi, and the bullet train experience.
+Assistant: Great choices. For temples, do Senso-ji in Tokyo
+and Fushimi Inari in Kyoto. For sushi, Tsukiji outer market
+in Tokyo and Sushi Saito if you can book it. Take the Nozomi
+Shinkansen from Tokyo to Kyoto.
+User: How long is that train and what does it cost?
+Assistant: The Nozomi from Tokyo to Kyoto takes about 2 hours
+15 minutes and costs roughly 13,320 yen one way (around $90).
+Book a reserved seat on the right side for a Mt. Fuji view.
+User: Budget for the 5 days?
+Assistant: Mid-range estimate: ~$1,400 total — hotels ~$120/
+night, food ~$50/day, the JR transport ~$280, attractions
+~$100. Add a buffer for shopping.
+
+  --> After storing this, in the LOAD page ask:
+      "How much does the bullet train from Tokyo to Kyoto cost?"
+  --> glm-5 on 0G Compute will answer "~13,320 yen / ~$90"
+      purely from the loaded memory. That's the demo.
+
+
+================================================================
+ Built on 0G  ·  Storage + Compute + Chain + DA
+ https://0gmind.vercel.app
+================================================================

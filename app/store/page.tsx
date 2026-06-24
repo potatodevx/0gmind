@@ -114,18 +114,28 @@ export default function StorePage() {
 
   return (
     <div style={{ background: '#E6F0FF', minHeight: '100vh', paddingTop: '80px' }}>
-      <div className="max-w-3xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto px-6 py-12">
 
         {/* Header */}
         <div className="mb-8">
           <Link href="/" className="text-sm mb-4 inline-flex items-center gap-2" style={{ color: 'rgba(11,27,46,0.5)' }}>← Back</Link>
-          <h1 className="font-black text-4xl mb-2" style={{ color: '#0B1B2E' }}>
-            Store <span style={{ color: '#0091ff' }}>Context</span>
-          </h1>
-          <p style={{ color: 'rgba(11,27,46,0.55)' }}>
-            Paste your AI conversation. It gets stored on 0G Storage and minted as an NFT on 0G Chain.
-          </p>
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0" style={{ background: '#0B1B2E', color: '#fff' }}>
+              <IconDatabase size={22} />
+            </div>
+            <div>
+              <h1 className="font-black text-4xl" style={{ color: '#0B1B2E' }}>
+                Store <span style={{ color: '#0091ff' }}>Context</span>
+              </h1>
+              <p style={{ color: 'rgba(11,27,46,0.55)' }}>
+                Paste an AI conversation — stored on 0G Storage, owned as an NFT on 0G Chain.
+              </p>
+            </div>
+          </div>
         </div>
+
+        <div className="grid lg:grid-cols-3 gap-8 items-start">
+        <div className="lg:col-span-2 space-y-6">
 
         {/* Wallet Connect Banner */}
         {!account ? (
@@ -189,7 +199,7 @@ export default function StorePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'rgba(11,27,46,0.7)' }}>
+                <label className="text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'rgba(11,27,46,0.7)' }}>
                   AI Model
                   <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(0,145,255,0.12)', color: '#0091ff' }}>
                     runs on 0G Compute
@@ -374,6 +384,38 @@ export default function StorePage() {
             </div>
           </div>
         )}
+
+        </div>{/* left column */}
+
+        {/* Sidebar — how it works */}
+        <aside className="lg:col-span-1 lg:sticky lg:top-24 space-y-4">
+          <div className="rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.1)' }}>
+            <div className="text-xs font-bold mb-4 tracking-wide" style={{ color: 'rgba(11,27,46,0.5)' }}>HOW STORING WORKS</div>
+            <div className="space-y-4">
+              {[
+                { n: '1', t: 'Paste context', d: 'Any conversation, system prompt, or agent memory.' },
+                { n: '2', t: 'Encrypt + store', d: 'Written to 0G Storage. You get a blob ID.' },
+                { n: '3', t: 'Summarize', d: 'glm-5 on 0G Compute generates a preview.' },
+                { n: '4', t: 'Mint NFT', d: 'Ownership minted on 0G Chain as ERC-721.' },
+              ].map((s) => (
+                <div key={s.n} className="flex gap-3">
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shrink-0" style={{ background: 'rgba(0,145,255,0.12)', color: '#0091ff' }}>{s.n}</div>
+                  <div>
+                    <div className="font-semibold text-sm" style={{ color: '#0B1B2E' }}>{s.t}</div>
+                    <div style={{ fontSize: '0.78rem', color: 'rgba(11,27,46,0.5)', lineHeight: 1.4 }}>{s.d}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl p-5" style={{ background: 'rgba(0,145,255,0.06)', border: '1px solid rgba(0,145,255,0.18)' }}>
+            <div className="font-semibold text-sm mb-1" style={{ color: '#0091ff' }}>Tip</div>
+            <p style={{ fontSize: '0.8rem', color: 'rgba(11,27,46,0.6)', lineHeight: 1.5 }}>
+              We store plain text today, but the same pipeline works for files — PDFs, JSON memory dumps, even model checkpoints — since 0G Storage is file-native.
+            </p>
+          </div>
+        </aside>
+        </div>{/* grid */}
       </div>
     </div>
   );
