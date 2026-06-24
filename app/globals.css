@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-bg: #050a14;
-  --color-cyan: #00d4ff;
+  --color-bg: #E6F0FF;
+  --color-navy: #0B1B2E;
+  --color-blue: #0091ff;
   --color-purple: #8b5cf6;
   --font-sans: var(--font-inter);
 }
@@ -19,22 +20,24 @@ body {
 
 body {
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #E6F0FF;
+  color: #0B1B2E;
 }
 
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0f1e;
+  background: #dbe7fb;
 }
 ::-webkit-scrollbar-thumb {
-  background: #00d4ff;
+  background: #0091ff;
   border-radius: 4px;
 }
 
-/* ── Reusable component classes used by the dark sub-pages ── */
+/* ── Reusable component classes (lavender theme) ── */
 .gradient-text {
-  background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 50%, #00d4ff 100%);
+  background: linear-gradient(135deg, #0091ff 0%, #8b5cf6 50%, #0091ff 100%);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -49,60 +52,60 @@ body {
 }
 
 .card-glow {
-  border: 1px solid rgba(0, 212, 255, 0.2);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.05);
+  border: 1px solid rgba(11, 27, 46, 0.1);
+  box-shadow: 0 4px 18px rgba(11, 27, 46, 0.05);
   transition: all 0.3s ease;
 }
 .card-glow:hover {
-  border-color: rgba(0, 212, 255, 0.5);
-  box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+  border-color: rgba(0, 145, 255, 0.45);
+  box-shadow: 0 8px 28px rgba(0, 145, 255, 0.12);
 }
 
 .grid-bg {
   background-image:
-    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(11, 27, 46, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 27, 46, 0.04) 1px, transparent 1px);
   background-size: 50px 50px;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #00d4ff, #0ea5e9);
-  color: #050a14;
+  background: #0B1B2E;
+  color: #E6F0FF;
   font-weight: 700;
   padding: 12px 28px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(11, 27, 46, 0.18);
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 35px rgba(0, 212, 255, 0.5);
+  box-shadow: 0 8px 24px rgba(11, 27, 46, 0.28);
 }
 
 .btn-secondary {
-  background: transparent;
-  color: #00d4ff;
+  background: #ffffff;
+  color: #0B1B2E;
   font-weight: 600;
   padding: 11px 27px;
   border-radius: 8px;
-  border: 1px solid rgba(0, 212, 255, 0.5);
+  border: 1px solid rgba(11, 27, 46, 0.25);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 .btn-secondary:hover {
-  background: rgba(0, 212, 255, 0.1);
-  border-color: #00d4ff;
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+  background: rgba(0, 145, 255, 0.08);
+  border-color: #0091ff;
+  color: #0066cc;
 }
 
 .blob-id {
   font-family: 'Courier New', monospace;
   font-size: 0.75rem;
-  color: #00d4ff;
-  background: rgba(0, 212, 255, 0.08);
-  border: 1px solid rgba(0, 212, 255, 0.2);
+  color: #0066cc;
+  background: rgba(0, 145, 255, 0.08);
+  border: 1px solid rgba(0, 145, 255, 0.25);
   border-radius: 6px;
   padding: 8px 12px;
   word-break: break-all;

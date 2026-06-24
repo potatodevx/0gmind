@@ -75,18 +75,18 @@ export default function DashboardPage() {
   const formatSize = (bytes: number) => bytes < 1024 ? `${bytes} B` : `${(bytes / 1024).toFixed(1)} KB`;
 
   return (
-    <div style={{ background: '#050a14', minHeight: '100vh', paddingTop: '80px' }}>
+    <div style={{ background: '#E6F0FF', minHeight: '100vh', paddingTop: '80px' }}>
       <div className="max-w-5xl mx-auto px-6 py-12">
 
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="font-black text-4xl mb-1" style={{ color: 'white' }}>
+            <h1 className="font-black text-4xl mb-1" style={{ color: '#0B1B2E' }}>
               <span className="gradient-text">Dashboard</span>
             </h1>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem' }}>
+            <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem' }}>
               Contract:{' '}
-              <a href={`${EXPLORER}/address/${contractAddress}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs" style={{ color: '#00d4ff' }}>
+              <a href={`${EXPLORER}/address/${contractAddress}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs" style={{ color: '#0091ff' }}>
                 {contractAddress.slice(0, 10)}...{contractAddress.slice(-6)} ↗
               </a>
             </p>
@@ -99,26 +99,26 @@ export default function DashboardPage() {
         {/* Stats row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Total On-Chain', value: totalSupply, color: '#00d4ff' },
+            { label: 'Total On-Chain', value: totalSupply, color: '#0091ff' },
             { label: 'My NFTs', value: onChainContexts.length, color: '#8b5cf6' },
-            { label: 'Public Contexts', value: apiContexts.length, color: '#10b981' },
-            { label: 'Network', value: 'Galileo', color: '#f59e0b', isText: true },
+            { label: 'Public Contexts', value: apiContexts.length, color: '#059669' },
+            { label: 'Network', value: 'Galileo', color: '#d97706', isText: true },
           ].map((s, i) => (
-            <div key={i} className="card-glow rounded-xl p-5 text-center" style={{ background: '#0d1526' }}>
+            <div key={i} className="card-glow rounded-xl p-5 text-center" style={{ background: '#ffffff' }}>
               <div className="font-black text-2xl mb-1" style={{ color: s.color }}>
                 {s.isText ? s.value : s.value}
               </div>
-              <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.4)' }}>{s.label}</div>
+              <div style={{ fontSize: '0.78rem', color: 'rgba(11,27,46,0.5)' }}>{s.label}</div>
             </div>
           ))}
         </div>
 
         {/* Wallet section */}
         {!account ? (
-          <div className="rounded-2xl p-6 mb-8 text-center" style={{ background: '#0d1526', border: '1px solid rgba(245,158,11,0.3)' }}>
+          <div className="rounded-2xl p-6 mb-8 text-center" style={{ background: '#ffffff', border: '1px solid rgba(245,158,11,0.3)' }}>
             <div className="text-3xl mb-3">🔗</div>
-            <div className="font-bold text-lg mb-2" style={{ color: '#f59e0b' }}>Connect to see your on-chain NFTs</div>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', marginBottom: '20px' }}>
+            <div className="font-bold text-lg mb-2" style={{ color: '#d97706' }}>Connect to see your on-chain NFTs</div>
+            <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem', marginBottom: '20px' }}>
               Connect MetaMask to view contexts you own on 0G Chain
             </p>
             <button onClick={handleConnect} disabled={connecting} className="btn-primary">
@@ -127,12 +127,12 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="rounded-xl p-4 mb-6 flex items-center gap-3" style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)' }}>
-            <span className="w-2 h-2 rounded-full" style={{ background: '#10b981' }} />
-            <span style={{ fontSize: '0.85rem', color: '#10b981', fontWeight: 600 }}>Wallet Connected</span>
-            <span className="font-mono text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <span className="w-2 h-2 rounded-full" style={{ background: '#059669' }} />
+            <span style={{ fontSize: '0.85rem', color: '#059669', fontWeight: 600 }}>Wallet Connected</span>
+            <span className="font-mono text-xs" style={{ color: 'rgba(11,27,46,0.5)' }}>
               {account.slice(0, 8)}...{account.slice(-6)}
             </span>
-            <button onClick={() => loadData(account)} style={{ marginLeft: 'auto', fontSize: '0.8rem', color: '#00d4ff' }}>
+            <button onClick={() => loadData(account)} style={{ marginLeft: 'auto', fontSize: '0.8rem', color: '#0091ff' }}>
               ↺ Refresh
             </button>
           </div>
@@ -141,47 +141,47 @@ export default function DashboardPage() {
         {/* On-chain NFTs */}
         {account && (
           <section className="mb-10">
-            <h2 className="font-bold text-lg mb-4" style={{ color: 'white' }}>
+            <h2 className="font-bold text-lg mb-4" style={{ color: '#0B1B2E' }}>
               ⛓️ Your On-Chain Context NFTs
-              <span className="ml-2 text-sm font-normal" style={{ color: 'rgba(255,255,255,0.35)' }}>(0G Chain)</span>
+              <span className="ml-2 text-sm font-normal" style={{ color: 'rgba(11,27,46,0.45)' }}>(0G Chain)</span>
             </h2>
 
             {loading ? (
-              <div className="text-center py-10" style={{ color: 'rgba(255,255,255,0.3)' }}>
-                <div className="spinner inline-block w-6 h-6 border-2 rounded-full mb-2" style={{ borderColor: 'rgba(0,212,255,0.2)', borderTopColor: '#00d4ff' }} />
+              <div className="text-center py-10" style={{ color: 'rgba(11,27,46,0.4)' }}>
+                <div className="spinner inline-block w-6 h-6 border-2 rounded-full mb-2" style={{ borderColor: 'rgba(0,145,255,0.2)', borderTopColor: '#0091ff' }} />
                 <div className="text-sm">Loading from 0G Chain...</div>
               </div>
             ) : onChainContexts.length === 0 ? (
-              <div className="rounded-xl p-6 text-center" style={{ background: '#0d1526', border: '1px solid rgba(255,255,255,0.07)' }}>
-                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem' }}>No NFTs found for this wallet. Store a context to mint one.</p>
+              <div className="rounded-xl p-6 text-center" style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.1)' }}>
+                <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem' }}>No NFTs found for this wallet. Store a context to mint one.</p>
               </div>
             ) : (
               <div className="space-y-3">
                 {onChainContexts.map((ctx) => (
-                  <div key={ctx.tokenId} className="card-glow rounded-2xl p-5" style={{ background: '#0d1526' }}>
+                  <div key={ctx.tokenId} className="card-glow rounded-2xl p-5" style={{ background: '#ffffff' }}>
                     <div className="flex items-start justify-between gap-4 mb-3">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-bold px-2 py-0.5 rounded text-xs" style={{ background: 'rgba(139,92,246,0.2)', color: '#8b5cf6', border: '1px solid rgba(139,92,246,0.3)' }}>
                             NFT #{ctx.tokenId}
                           </span>
-                          <span className="font-semibold" style={{ color: 'white' }}>
+                          <span className="font-semibold" style={{ color: '#0B1B2E' }}>
                             {ctx.description || 'Untitled Context'}
                           </span>
-                          <span className="text-xs px-2 py-0.5 rounded" style={{ background: ctx.isPublic ? 'rgba(16,185,129,0.15)' : 'rgba(139,92,246,0.15)', color: ctx.isPublic ? '#10b981' : '#8b5cf6', border: `1px solid ${ctx.isPublic ? 'rgba(16,185,129,0.3)' : 'rgba(139,92,246,0.3)'}` }}>
+                          <span className="text-xs px-2 py-0.5 rounded" style={{ background: ctx.isPublic ? 'rgba(16,185,129,0.15)' : 'rgba(139,92,246,0.15)', color: ctx.isPublic ? '#059669' : '#8b5cf6', border: `1px solid ${ctx.isPublic ? 'rgba(16,185,129,0.3)' : 'rgba(139,92,246,0.3)'}` }}>
                             {ctx.isPublic ? 'Public' : 'Private'}
                           </span>
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>
+                        <div style={{ fontSize: '0.8rem', color: 'rgba(11,27,46,0.5)' }}>
                           {ctx.modelName} · {formatSize(ctx.sizeBytes)} · {timeAgo(ctx.createdAt)}
                         </div>
                       </div>
-                      <div className="flex gap-2 flex-shrink-0">
+                      <div className="flex gap-2 shrink-0">
                         <Link href={`/load?id=${ctx.blobId}`}>
                           <button className="btn-secondary text-xs px-3 py-2">Load →</button>
                         </Link>
                         <a href={`${EXPLORER}/token/${CONTRACT}?a=${account}`} target="_blank" rel="noopener noreferrer">
-                          <button className="text-xs px-3 py-2 rounded-lg" style={{ background: 'rgba(0,212,255,0.1)', color: '#00d4ff', border: '1px solid rgba(0,212,255,0.2)' }}>
+                          <button className="text-xs px-3 py-2 rounded-lg" style={{ background: 'rgba(0,145,255,0.1)', color: '#0091ff', border: '1px solid rgba(0,145,255,0.2)' }}>
                             Explorer ↗
                           </button>
                         </a>
@@ -192,7 +192,7 @@ export default function DashboardPage() {
                       <div className="blob-id text-xs px-2 py-1 truncate max-w-xs">
                         {ctx.blobId.slice(0, 26)}...
                       </div>
-                      <button onClick={() => copy(ctx.blobId, ctx.blobId)} style={{ fontSize: '0.75rem', color: copied === ctx.blobId ? '#10b981' : 'rgba(255,255,255,0.35)' }}>
+                      <button onClick={() => copy(ctx.blobId, ctx.blobId)} style={{ fontSize: '0.75rem', color: copied === ctx.blobId ? '#059669' : 'rgba(11,27,46,0.45)' }}>
                         {copied === ctx.blobId ? '✓ Copied' : 'Copy Blob ID'}
                       </button>
 
@@ -205,15 +205,15 @@ export default function DashboardPage() {
                             onChange={(e) => setGrantInput({ tokenId: ctx.tokenId, addr: e.target.value })}
                             placeholder="0x... address"
                             className="rounded-lg px-3 py-1 text-xs font-mono focus:outline-none"
-                            style={{ background: '#0a0f1e', border: '1px solid rgba(0,212,255,0.3)', color: '#00d4ff', width: '200px' }}
+                            style={{ background: '#F2F7FF', border: '1px solid rgba(0,145,255,0.3)', color: '#0091ff', width: '200px' }}
                           />
-                          <button onClick={() => handleGrant(ctx.tokenId, grantInput.addr)} disabled={!!txPending} className="text-xs px-3 py-1 rounded-lg" style={{ background: 'rgba(16,185,129,0.2)', color: '#10b981', border: '1px solid rgba(16,185,129,0.3)' }}>
+                          <button onClick={() => handleGrant(ctx.tokenId, grantInput.addr)} disabled={!!txPending} className="text-xs px-3 py-1 rounded-lg" style={{ background: 'rgba(16,185,129,0.2)', color: '#059669', border: '1px solid rgba(16,185,129,0.3)' }}>
                             {txPending === `grant-${ctx.tokenId}` ? '...' : 'Grant'}
                           </button>
-                          <button onClick={() => setGrantInput(null)} style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)' }}>Cancel</button>
+                          <button onClick={() => setGrantInput(null)} style={{ fontSize: '0.75rem', color: 'rgba(11,27,46,0.5)' }}>Cancel</button>
                         </div>
                       ) : (
-                        <button onClick={() => setGrantInput({ tokenId: ctx.tokenId, addr: '' })} style={{ marginLeft: 'auto', fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)' }}>
+                        <button onClick={() => setGrantInput({ tokenId: ctx.tokenId, addr: '' })} style={{ marginLeft: 'auto', fontSize: '0.75rem', color: 'rgba(11,27,46,0.45)' }}>
                           + Grant Access
                         </button>
                       )}
@@ -227,32 +227,32 @@ export default function DashboardPage() {
 
         {/* API/public contexts */}
         <section>
-          <h2 className="font-bold text-lg mb-4" style={{ color: 'white' }}>
+          <h2 className="font-bold text-lg mb-4" style={{ color: '#0B1B2E' }}>
             🗄️ Public Contexts
-            <span className="ml-2 text-sm font-normal" style={{ color: 'rgba(255,255,255,0.35)' }}>(0G Storage)</span>
+            <span className="ml-2 text-sm font-normal" style={{ color: 'rgba(11,27,46,0.45)' }}>(0G Storage)</span>
           </h2>
           {apiContexts.length === 0 ? (
-            <div className="rounded-xl p-6 text-center" style={{ background: '#0d1526', border: '1px solid rgba(255,255,255,0.07)' }}>
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem' }}>No public contexts yet.</p>
+            <div className="rounded-xl p-6 text-center" style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.1)' }}>
+              <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem' }}>No public contexts yet.</p>
             </div>
           ) : (
             <div className="space-y-3">
               {apiContexts.map((ctx) => (
-                <div key={ctx.contextId} className="card-glow rounded-2xl p-4" style={{ background: '#0d1526' }}>
+                <div key={ctx.contextId} className="card-glow rounded-2xl p-4" style={{ background: '#ffffff' }}>
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold mb-0.5 truncate" style={{ color: 'white' }}>{ctx.description || 'Untitled'}</div>
-                      <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>
+                      <div className="font-semibold mb-0.5 truncate" style={{ color: '#0B1B2E' }}>{ctx.description || 'Untitled'}</div>
+                      <div style={{ fontSize: '0.8rem', color: 'rgba(11,27,46,0.5)' }}>
                         {ctx.model} · {formatSize(ctx.size)} · {ctx.accessCount} loads · {timeAgo(ctx.timestamp)}
                       </div>
                     </div>
-                    <Link href={`/load?id=${ctx.contextId}`} className="flex-shrink-0">
+                    <Link href={`/load?id=${ctx.contextId}`} className="shrink-0">
                       <button className="btn-secondary text-xs px-4 py-2">Load →</button>
                     </Link>
                   </div>
                   <div className="mt-2 flex items-center gap-2">
                     <div className="blob-id text-xs px-2 py-1 truncate max-w-xs">{ctx.contextId.slice(0, 30)}...</div>
-                    <button onClick={() => copy(ctx.contextId, ctx.contextId)} style={{ fontSize: '0.75rem', color: copied === ctx.contextId ? '#10b981' : 'rgba(255,255,255,0.35)' }}>
+                    <button onClick={() => copy(ctx.contextId, ctx.contextId)} style={{ fontSize: '0.75rem', color: copied === ctx.contextId ? '#059669' : 'rgba(11,27,46,0.45)' }}>
                       {copied === ctx.contextId ? '✓' : 'Copy'}
                     </button>
                   </div>

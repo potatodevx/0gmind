@@ -14,8 +14,8 @@ interface PublicContext {
 }
 
 const MODEL_COLORS: Record<string, string> = {
-  'Claude Sonnet 4.5': '#f59e0b',
-  'GPT-4o': '#10b981',
+  'Claude Sonnet 4.5': '#d97706',
+  'GPT-4o': '#059669',
   'Gemini 1.5 Pro': '#3b82f6',
   'GLM-5': '#8b5cf6',
   'Llama 3.1': '#ef4444',
@@ -51,14 +51,14 @@ export default function MarketplacePage() {
   };
 
   return (
-    <div style={{ background: '#050a14', minHeight: '100vh', paddingTop: '80px' }}>
+    <div style={{ background: '#E6F0FF', minHeight: '100vh', paddingTop: '80px' }}>
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="font-black text-5xl mb-4" style={{ color: 'white' }}>
+          <h1 className="font-black text-5xl mb-4" style={{ color: '#0B1B2E' }}>
             Context <span className="gradient-text">Marketplace</span>
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto' }}>
+          <p style={{ color: 'rgba(11,27,46,0.55)', fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto' }}>
             Browse public agent contexts stored on 0G. Load any context into your preferred AI model instantly.
           </p>
         </div>
@@ -71,7 +71,7 @@ export default function MarketplacePage() {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search contexts..."
             className="flex-1 rounded-xl p-3 text-sm focus:outline-none"
-            style={{ background: '#0d1526', border: '1px solid rgba(0,212,255,0.2)', color: 'rgba(255,255,255,0.85)' }}
+            style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.2)', color: 'rgba(11,27,46,0.85)' }}
           />
           <div className="flex gap-2 flex-wrap">
             {allModels.map((m) => (
@@ -80,9 +80,9 @@ export default function MarketplacePage() {
                 onClick={() => setFilter(m)}
                 className="px-3 py-2 rounded-xl text-xs font-semibold transition-all"
                 style={{
-                  background: filter === m ? 'rgba(0,212,255,0.15)' : '#0d1526',
-                  color: filter === m ? '#00d4ff' : 'rgba(255,255,255,0.5)',
-                  border: `1px solid ${filter === m ? 'rgba(0,212,255,0.4)' : 'rgba(255,255,255,0.1)'}`,
+                  background: filter === m ? 'rgba(0,145,255,0.15)' : '#ffffff',
+                  color: filter === m ? '#0091ff' : 'rgba(11,27,46,0.55)',
+                  border: `1px solid ${filter === m ? 'rgba(0,145,255,0.4)' : 'rgba(11,27,46,0.12)'}`,
                 }}
               >
                 {m}
@@ -93,17 +93,17 @@ export default function MarketplacePage() {
 
         {/* Grid */}
         {loading ? (
-          <div className="text-center py-20" style={{ color: 'rgba(255,255,255,0.3)' }}>
-            <div className="spinner inline-block w-8 h-8 border-2 rounded-full mb-4" style={{ borderColor: 'rgba(0,212,255,0.2)', borderTopColor: '#00d4ff' }} />
+          <div className="text-center py-20" style={{ color: 'rgba(11,27,46,0.4)' }}>
+            <div className="spinner inline-block w-8 h-8 border-2 rounded-full mb-4" style={{ borderColor: 'rgba(0,145,255,0.2)', borderTopColor: '#0091ff' }} />
             <div>Fetching from 0G...</div>
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-5xl mb-4">🌐</div>
-            <div className="font-bold text-xl mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <div className="font-bold text-xl mb-2" style={{ color: 'rgba(11,27,46,0.55)' }}>
               {search || filter !== 'All' ? 'No matching contexts' : 'Marketplace is empty'}
             </div>
-            <p style={{ color: 'rgba(255,255,255,0.3)', marginBottom: '24px' }}>
+            <p style={{ color: 'rgba(11,27,46,0.4)', marginBottom: '24px' }}>
               {search ? 'Try a different search term.' : 'Store a public context to be the first listing.'}
             </p>
             <Link href="/store"><button className="btn-primary">Add to Marketplace</button></Link>
@@ -113,7 +113,7 @@ export default function MarketplacePage() {
             {filtered.map((ctx) => {
               const modelColor = MODEL_COLORS[ctx.model] || '#64748b';
               return (
-                <div key={ctx.contextId} className="card-glow rounded-2xl p-5 flex flex-col" style={{ background: '#0d1526' }}>
+                <div key={ctx.contextId} className="card-glow rounded-2xl p-5 flex flex-col" style={{ background: '#ffffff' }}>
                   {/* Model badge */}
                   <div className="flex items-center justify-between mb-4">
                     <span
@@ -122,18 +122,18 @@ export default function MarketplacePage() {
                     >
                       {ctx.model}
                     </span>
-                    <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.3)' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'rgba(11,27,46,0.4)' }}>
                       {ctx.accessCount} loads
                     </span>
                   </div>
 
                   {/* Description */}
-                  <h3 className="font-bold mb-2" style={{ color: 'white' }}>
+                  <h3 className="font-bold mb-2" style={{ color: '#0B1B2E' }}>
                     {ctx.description || 'Untitled Context'}
                   </h3>
 
                   {/* Summary */}
-                  <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.55, flexGrow: 1, marginBottom: '16px' }}>
+                  <p style={{ fontSize: '0.85rem', color: 'rgba(11,27,46,0.55)', lineHeight: 1.55, flexGrow: 1, marginBottom: '16px' }}>
                     {ctx.summary
                       ? ctx.summary.slice(0, 120) + (ctx.summary.length > 120 ? '...' : '')
                       : 'No summary available.'}
@@ -146,7 +146,7 @@ export default function MarketplacePage() {
 
                   {/* Footer */}
                   <div className="flex items-center justify-between">
-                    <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'rgba(11,27,46,0.45)' }}>
                       {formatSize(ctx.size)}
                     </span>
                     <Link href={`/load?id=${ctx.contextId}`}>

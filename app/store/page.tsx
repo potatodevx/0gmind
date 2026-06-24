@@ -112,33 +112,33 @@ export default function StorePage() {
   };
 
   return (
-    <div style={{ background: '#050a14', minHeight: '100vh', paddingTop: '80px' }}>
+    <div style={{ background: '#E6F0FF', minHeight: '100vh', paddingTop: '80px' }}>
       <div className="max-w-3xl mx-auto px-6 py-12">
 
         {/* Header */}
         <div className="mb-8">
-          <Link href="/" className="text-sm mb-4 inline-flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.4)' }}>← Back</Link>
-          <h1 className="font-black text-4xl mb-2" style={{ color: 'white' }}>
+          <Link href="/" className="text-sm mb-4 inline-flex items-center gap-2" style={{ color: 'rgba(11,27,46,0.5)' }}>← Back</Link>
+          <h1 className="font-black text-4xl mb-2" style={{ color: '#0B1B2E' }}>
             Store <span className="gradient-text">Context</span>
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p style={{ color: 'rgba(11,27,46,0.55)' }}>
             Paste your AI conversation. It gets stored on 0G Storage and minted as an NFT on 0G Chain.
           </p>
         </div>
 
         {/* Wallet Connect Banner */}
         {!account ? (
-          <div className="rounded-2xl p-5 mb-6 flex items-center justify-between" style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.3)' }}>
+          <div className="rounded-2xl p-5 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.3)' }}>
             <div>
-              <div className="font-semibold mb-0.5" style={{ color: '#f59e0b' }}>Connect MetaMask to mint on-chain</div>
-              <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.45)' }}>
+              <div className="font-semibold mb-0.5" style={{ color: '#d97706' }}>Connect MetaMask to mint on-chain</div>
+              <p style={{ fontSize: '0.85rem', color: 'rgba(11,27,46,0.5)' }}>
                 Required for 0G Chain NFT ownership. Storage works without it.
               </p>
             </div>
             <button
               onClick={connectWallet}
               disabled={connecting}
-              className="btn-primary px-5 py-2.5 text-sm flex-shrink-0"
+              className="btn-primary px-5 py-2.5 text-sm w-full sm:w-auto shrink-0"
               style={{ opacity: connecting ? 0.7 : 1 }}
             >
               {connecting ? 'Connecting...' : 'Connect Wallet'}
@@ -146,12 +146,12 @@ export default function StorePage() {
           </div>
         ) : (
           <div className="rounded-xl p-4 mb-6 flex items-center gap-3" style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.25)' }}>
-            <span className="w-2 h-2 rounded-full" style={{ background: '#10b981' }} />
-            <span style={{ fontSize: '0.85rem', color: '#10b981', fontWeight: 600 }}>Connected</span>
-            <span className="font-mono text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <span className="w-2 h-2 rounded-full" style={{ background: '#059669' }} />
+            <span style={{ fontSize: '0.85rem', color: '#059669', fontWeight: 600 }}>Connected</span>
+            <span className="font-mono text-xs" style={{ color: 'rgba(11,27,46,0.5)' }}>
               {account.slice(0, 6)}...{account.slice(-4)}
             </span>
-            <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.3)', marginLeft: 'auto' }}>
+            <span style={{ fontSize: '0.75rem', color: 'rgba(11,27,46,0.4)', marginLeft: 'auto' }}>
               0G Galileo Testnet
             </span>
           </div>
@@ -161,7 +161,7 @@ export default function StorePage() {
         {step !== 'done' && (
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              <label className="block text-sm font-semibold mb-2" style={{ color: 'rgba(11,27,46,0.7)' }}>
                 Agent Context / Conversation *
               </label>
               <textarea
@@ -172,35 +172,35 @@ export default function StorePage() {
                 disabled={step !== 'idle'}
                 className="w-full rounded-xl p-4 text-sm font-mono resize-none focus:outline-none"
                 style={{
-                  background: '#0d1526',
-                  border: '1px solid rgba(0,212,255,0.2)',
-                  color: 'rgba(255,255,255,0.85)',
+                  background: '#ffffff',
+                  border: '1px solid rgba(0,145,255,0.2)',
+                  color: 'rgba(11,27,46,0.85)',
                   lineHeight: 1.6,
                   opacity: step !== 'idle' ? 0.5 : 1,
                 }}
               />
               <div className="flex justify-between mt-1">
-                <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.3)' }}>
+                <span style={{ fontSize: '0.75rem', color: 'rgba(11,27,46,0.4)' }}>
                   {content.length.toLocaleString()} chars · ~{Math.ceil(content.length / 4).toLocaleString()} tokens
                 </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>AI Model</label>
+                <label className="block text-sm font-semibold mb-2" style={{ color: 'rgba(11,27,46,0.7)' }}>AI Model</label>
                 <select
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
                   disabled={step !== 'idle'}
                   className="w-full rounded-xl p-3 text-sm focus:outline-none"
-                  style={{ background: '#0d1526', border: '1px solid rgba(0,212,255,0.2)', color: 'rgba(255,255,255,0.85)' }}
+                  style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.2)', color: 'rgba(11,27,46,0.85)' }}
                 >
-                  {MODELS.map((m) => <option key={m} value={m} style={{ background: '#0d1526' }}>{m}</option>)}
+                  {MODELS.map((m) => <option key={m} value={m} style={{ background: '#ffffff' }}>{m}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-semibold mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>Description</label>
+                <label className="block text-sm font-semibold mb-2" style={{ color: 'rgba(11,27,46,0.7)' }}>Description</label>
                 <input
                   type="text"
                   value={description}
@@ -208,42 +208,42 @@ export default function StorePage() {
                   disabled={step !== 'idle'}
                   placeholder="e.g. Product planning session"
                   className="w-full rounded-xl p-3 text-sm focus:outline-none"
-                  style={{ background: '#0d1526', border: '1px solid rgba(0,212,255,0.2)', color: 'rgba(255,255,255,0.85)' }}
+                  style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.2)', color: 'rgba(11,27,46,0.85)' }}
                 />
               </div>
             </div>
 
             {/* Privacy toggle */}
-            <div className="flex items-center justify-between rounded-xl p-5" style={{ background: '#0d1526', border: '1px solid rgba(0,212,255,0.15)' }}>
+            <div className="flex items-center justify-between rounded-xl p-5" style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.15)' }}>
               <div>
-                <div className="font-semibold mb-0.5" style={{ color: 'white' }}>
+                <div className="font-semibold mb-0.5" style={{ color: '#0B1B2E' }}>
                   {isPublic ? '🌐 Public' : '🔒 Private (Sealed Inference)'}
                 </div>
-                <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.4)' }}>
+                <p style={{ fontSize: '0.85rem', color: 'rgba(11,27,46,0.5)' }}>
                   {isPublic ? 'Visible in marketplace. Anyone can load.' : 'Encrypted in 0G TEE. Only you can access.'}
                 </p>
               </div>
               <button
                 onClick={() => setIsPublic(!isPublic)}
-                className="relative w-12 h-6 rounded-full transition-all flex-shrink-0"
-                style={{ background: isPublic ? '#10b981' : 'rgba(255,255,255,0.15)' }}
+                className="relative w-12 h-6 rounded-full transition-all shrink-0"
+                style={{ background: isPublic ? '#059669' : 'rgba(11,27,46,0.18)' }}
               >
                 <span className="absolute top-0.5 w-5 h-5 rounded-full bg-white transition-all" style={{ left: isPublic ? '26px' : '2px' }} />
               </button>
             </div>
 
             {error && (
-              <div className="rounded-xl p-4 text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#f87171' }}>
+              <div className="rounded-xl p-4 text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#dc2626' }}>
                 {error}
               </div>
             )}
 
             {/* Progress indicator while running */}
             {step !== 'idle' && (
-              <div className="rounded-xl p-4" style={{ background: '#0d1526', border: '1px solid rgba(0,212,255,0.2)' }}>
+              <div className="rounded-xl p-4" style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.2)' }}>
                 <div className="flex items-center gap-3">
-                  <div className="spinner w-4 h-4 border-2 rounded-full flex-shrink-0" style={{ borderColor: 'rgba(0,212,255,0.2)', borderTopColor: '#00d4ff' }} />
-                  <span style={{ color: '#00d4ff', fontSize: '0.9rem' }}>{stepLabels[step]}</span>
+                  <div className="spinner w-4 h-4 border-2 rounded-full shrink-0" style={{ borderColor: 'rgba(0,145,255,0.2)', borderTopColor: '#0091ff' }} />
+                  <span style={{ color: '#0091ff', fontSize: '0.9rem' }}>{stepLabels[step]}</span>
                 </div>
                 <div className="flex gap-2 mt-3">
                   {(['storing', 'minting'] as const).map((s, i) => (
@@ -251,15 +251,15 @@ export default function StorePage() {
                       <div
                         className="w-2 h-2 rounded-full"
                         style={{
-                          background: step === s ? '#00d4ff' : (
-                            (step === 'minting' && i === 0) ? '#10b981' : 'rgba(255,255,255,0.2)'
+                          background: step === s ? '#0091ff' : (
+                            (step === 'minting' && i === 0) ? '#059669' : 'rgba(11,27,46,0.25)'
                           ),
                         }}
                       />
-                      <span style={{ fontSize: '0.75rem', color: step === s ? '#00d4ff' : 'rgba(255,255,255,0.4)' }}>
+                      <span style={{ fontSize: '0.75rem', color: step === s ? '#0091ff' : 'rgba(11,27,46,0.5)' }}>
                         {s === 'storing' ? '0G Storage' : '0G Chain'}
                       </span>
-                      {i === 0 && <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.75rem' }}>→</span>}
+                      {i === 0 && <span style={{ color: 'rgba(11,27,46,0.25)', fontSize: '0.75rem' }}>→</span>}
                     </div>
                   ))}
                 </div>
@@ -273,7 +273,7 @@ export default function StorePage() {
               style={{ opacity: step !== 'idle' || !content.trim() ? 0.6 : 1 }}
             >
               {step !== 'idle' ? (
-                <><span className="spinner inline-block w-5 h-5 border-2 rounded-full" style={{ borderColor: '#050a14', borderTopColor: 'transparent' }} /> Processing...</>
+                <><span className="spinner inline-block w-5 h-5 border-2 rounded-full" style={{ borderColor: '#E6F0FF', borderTopColor: 'transparent' }} /> Processing...</>
               ) : (
                 <>🗄️ Store on 0G + Mint NFT</>
               )}
@@ -287,17 +287,17 @@ export default function StorePage() {
             {/* Success */}
             <div className="rounded-2xl p-6 text-center" style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.3)' }}>
               <div className="text-4xl mb-3">✅</div>
-              <div className="font-black text-xl mb-1" style={{ color: '#10b981' }}>Context Stored & Minted!</div>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>
+              <div className="font-black text-xl mb-1" style={{ color: '#059669' }}>Context Stored & Minted!</div>
+              <p style={{ color: 'rgba(11,27,46,0.55)', fontSize: '0.9rem' }}>
                 Stored on 0G Storage {result.mintTxHash ? '+ minted as NFT on 0G Chain' : '(wallet not connected — no NFT minted)'}
               </p>
             </div>
 
             {/* Blob ID */}
-            <div className="rounded-2xl p-5" style={{ background: '#0d1526', border: '1px solid rgba(0,212,255,0.3)' }}>
+            <div className="rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.3)' }}>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold" style={{ color: '#00d4ff' }}>🆔 BLOB ID (0G Storage Root Hash)</span>
-                <button onClick={() => copy(result.contextId, 'blob')} className="text-xs px-3 py-1 rounded-lg" style={{ background: copied === 'blob' ? 'rgba(16,185,129,0.2)' : 'rgba(0,212,255,0.1)', color: copied === 'blob' ? '#10b981' : '#00d4ff', border: `1px solid ${copied === 'blob' ? 'rgba(16,185,129,0.4)' : 'rgba(0,212,255,0.3)'}` }}>
+                <span className="text-xs font-bold" style={{ color: '#0091ff' }}>🆔 BLOB ID (0G Storage Root Hash)</span>
+                <button onClick={() => copy(result.contextId, 'blob')} className="text-xs px-3 py-1 rounded-lg" style={{ background: copied === 'blob' ? 'rgba(16,185,129,0.2)' : 'rgba(0,145,255,0.1)', color: copied === 'blob' ? '#059669' : '#0091ff', border: `1px solid ${copied === 'blob' ? 'rgba(16,185,129,0.4)' : 'rgba(0,145,255,0.3)'}` }}>
                   {copied === 'blob' ? '✓ Copied' : 'Copy'}
                 </button>
               </div>
@@ -306,22 +306,22 @@ export default function StorePage() {
 
             {/* Chain details */}
             {result.mintTxHash && (
-              <div className="rounded-2xl p-5" style={{ background: '#0d1526', border: '1px solid rgba(139,92,246,0.3)' }}>
+              <div className="rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid rgba(139,92,246,0.3)' }}>
                 <div className="text-xs font-bold mb-3" style={{ color: '#8b5cf6' }}>⛓️ ON-CHAIN OWNERSHIP (0G Chain)</div>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>Token ID</span>
+                    <span style={{ fontSize: '0.8rem', color: 'rgba(11,27,46,0.55)' }}>Token ID</span>
                     <span className="font-mono font-bold" style={{ color: '#8b5cf6' }}>#{result.tokenId}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>Contract</span>
-                    <a href={`${EXPLORER}/address/${contractAddress}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs" style={{ color: '#00d4ff' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'rgba(11,27,46,0.55)' }}>Contract</span>
+                    <a href={`${EXPLORER}/address/${contractAddress}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs" style={{ color: '#0091ff' }}>
                       {contractAddress.slice(0, 10)}...{contractAddress.slice(-6)} ↗
                     </a>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>Mint Tx</span>
-                    <a href={`${EXPLORER}/tx/${result.mintTxHash}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs" style={{ color: '#00d4ff' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'rgba(11,27,46,0.55)' }}>Mint Tx</span>
+                    <a href={`${EXPLORER}/tx/${result.mintTxHash}`} target="_blank" rel="noopener noreferrer" className="font-mono text-xs" style={{ color: '#0091ff' }}>
                       {result.mintTxHash.slice(0, 10)}...{result.mintTxHash.slice(-6)} ↗
                     </a>
                   </div>
@@ -337,18 +337,18 @@ export default function StorePage() {
                 { label: 'Privacy', value: result.encrypted ? '🔒 Private' : '🌐 Public' },
                 { label: 'Network', value: '0G Galileo' },
               ].map((m, i) => (
-                <div key={i} className="rounded-xl p-3 text-center" style={{ background: '#0a0f1e', border: '1px solid rgba(0,212,255,0.1)' }}>
-                  <div className="font-bold text-sm" style={{ color: '#00d4ff' }}>{m.value}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)' }}>{m.label}</div>
+                <div key={i} className="rounded-xl p-3 text-center" style={{ background: '#F2F7FF', border: '1px solid rgba(0,145,255,0.1)' }}>
+                  <div className="font-bold text-sm" style={{ color: '#0091ff' }}>{m.value}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(11,27,46,0.5)' }}>{m.label}</div>
                 </div>
               ))}
             </div>
 
             {/* Summary */}
             {result.summary && (
-              <div className="rounded-xl p-4" style={{ background: '#0a0f1e', border: '1px solid rgba(139,92,246,0.2)' }}>
+              <div className="rounded-xl p-4" style={{ background: '#F2F7FF', border: '1px solid rgba(139,92,246,0.2)' }}>
                 <div className="text-xs font-bold mb-2" style={{ color: '#8b5cf6' }}>AI SUMMARY (via 0G Compute)</div>
-                <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.9rem', lineHeight: 1.6 }}>{result.summary}</p>
+                <p style={{ color: 'rgba(11,27,46,0.65)', fontSize: '0.9rem', lineHeight: 1.6 }}>{result.summary}</p>
               </div>
             )}
 
@@ -360,7 +360,7 @@ export default function StorePage() {
               <button
                 onClick={() => { setResult(null); setContent(''); setDescription(''); setStep('idle'); }}
                 className="flex-1 py-3 rounded-xl font-semibold"
-                style={{ background: '#0d1526', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+                style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.12)', color: 'rgba(11,27,46,0.6)' }}
               >
                 Store Another
               </button>
