@@ -3,17 +3,19 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useContextRegistry } from '@/components/chain/useContextRegistry';
-import type { OnChainContext } from '@/components/chain/useContextRegistry';
+import type { OnChainContext, AccessLogEntry } from '@/components/chain/useContextRegistry';
 import { IconPlug, IconLink, IconDatabase } from '@/components/ui/icons';
 
 const EXPLORER = process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://chainscan-galileo.0g.ai';
 const CONTRACT = process.env.NEXT_PUBLIC_CONTEXT_REGISTRY_ADDRESS || '';
 
 export default function DashboardPage() {
-  const { account, connecting, connectWallet, getMyContexts, grantAccess, getTotalSupply, checkConnection, contractAddress } = useContextRegistry();
+  const { account, connecting, connectWallet, getMyContexts, grantAccess, getTotalSupply, getAccessLog, checkConnection, contractAddress } = useContextRegistry();
 
   const [onChainContexts, setOnChainContexts] = useState<OnChainContext[]>([]);
   const [apiContexts, setApiContexts] = useState<{ contextId: string; model: string; description: string; summary: string; size: number; timestamp: number; accessCount: number }[]>([]);
+  const [accessLog, setAccessLog] = useState<AccessLogEntry[]>([]);
+  const [logLoading, setLogLoading] = useState(true);
   const [totalSupply, setTotalSupply] = useState(0);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState('');
@@ -46,7 +48,10 @@ export default function DashboardPage() {
     // load API contexts regardless of wallet
     fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/context/list`)
       .then(r => r.json()).then(d => setApiContexts(d.contexts || [])).catch(() => {});
-  }, [checkConnection, loadData, getTotalSupply]);
+    // load the on-chain DA audit trail (mints, grants, accesses)
+    setLogLoading(true);
+    getAccessLog().then(setAccessLog).finally(() => setLogLoading(false));
+  }, [checkConnection, loadData, getTotalSupply, getAccessLog]);
 
   const handleConnect = async () => {
     const addr = await connectWallet();
@@ -225,6 +230,61 @@ export default function DashboardPage() {
             )}
           </section>
         )}
+
+        {/* On-chain access log — 0G DA audit trail */}
+        <section className="mb-10">
+          <h2 className="font-bold text-lg mb-4 flex items-center gap-2" style={{ color: '#0B1B2E' }}>
+            <IconDatabase size={18} /> Access Log
+            <span className="text-sm font-normal" style={{ color: 'rgba(11,27,46,0.45)' }}>(0G DA · on-chain audit trail)</span>
+          </h2>
+
+          {logLoading ? (
+            <div className="text-center py-8" style={{ color: 'rgba(11,27,46,0.4)' }}>
+              <div className="spinner inline-block w-6 h-6 border-2 rounded-full mb-2" style={{ borderColor: 'rgba(0,145,255,0.2)', borderTopColor: '#0091ff' }} />
+              <div className="text-sm">Reading events from 0G Chain…</div>
+            </div>
+          ) : accessLog.length === 0 ? (
+            <div className="rounded-xl p-6 text-center" style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.1)' }}>
+              <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem' }}>No on-chain events yet. Mint a context or load one to populate the audit trail.</p>
+            </div>
+          ) : (
+            <div className="rounded-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.1)' }}>
+              {accessLog.map((entry, i) => {
+                const badge = entry.type === 'Minted'
+                  ? { label: 'MINTED', color: '#0091ff' }
+                  : entry.type === 'Granted'
+                  ? { label: 'GRANTED', color: '#8b5cf6' }
+                  : { label: 'ACCESSED', color: '#0091ff' };
+                return (
+                  <div
+                    key={`${entry.txHash}-${i}`}
+                    className="flex items-center gap-3 px-4 py-3 flex-wrap"
+                    style={{ borderTop: i === 0 ? 'none' : '1px solid rgba(11,27,46,0.06)' }}
+                  >
+                    <span className="text-xs font-bold px-2 py-0.5 rounded shrink-0" style={{ background: `${badge.color}1f`, color: badge.color, border: `1px solid ${badge.color}4d` }}>
+                      {badge.label}
+                    </span>
+                    <span style={{ fontSize: '0.82rem', color: '#0B1B2E', fontWeight: 600 }}>
+                      Context #{entry.tokenId}
+                    </span>
+                    <span className="font-mono" style={{ fontSize: '0.78rem', color: 'rgba(11,27,46,0.5)' }}>
+                      {entry.actor.slice(0, 8)}…{entry.actor.slice(-6)}
+                    </span>
+                    <a
+                      href={`${EXPLORER}/tx/${entry.txHash}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono ml-auto shrink-0"
+                      style={{ fontSize: '0.75rem', color: '#0091ff' }}
+                    >
+                      block {entry.blockNumber} ↗
+                    </a>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </section>
 
         {/* API/public contexts */}
         <section>

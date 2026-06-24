@@ -26,6 +26,14 @@ export interface OnChainContext {
   owner: string;
 }
 
+export interface AccessLogEntry {
+  type: 'Minted' | 'Granted' | 'Accessed';
+  tokenId: number;
+  actor: string;        // owner / grantee / accessor address
+  txHash: string;
+  blockNumber: number;
+}
+
 export function useContextRegistry() {
   const [account, setAccount] = useState<string | null>(null);
   const [connecting, setConnecting] = useState(false);
@@ -197,6 +205,77 @@ export function useContextRegistry() {
     return receipt.hash;
   }, []);
 
+  // Convert a blob ID (root hash or arbitrary string) to its on-chain bytes32 form
+  const toBlobBytes32 = (blobId: string): string =>
+    blobId.startsWith('0x') && blobId.length === 66
+      ? blobId
+      : ethers.keccak256(ethers.toUtf8Bytes(blobId));
+
+  // Best-effort: log an access event on-chain for a given blob ID.
+  // Returns the tx hash, or null if the blob isn't minted / no wallet.
+  const logAccessByBlob = useCallback(async (blobId: string): Promise<string | null> => {
+    if (!window.ethereum) return null;
+    try {
+      const provider = getProvider();
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(CONTEXT_REGISTRY_ADDRESS, CONTEXT_REGISTRY_ABI, signer);
+      const tokenId = await contract.blobToToken(toBlobBytes32(blobId));
+      if (Number(tokenId) === 0) return null; // not minted on-chain
+      const tx = await contract.logAccess(tokenId);
+      const receipt = await tx.wait();
+      return receipt.hash;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  // Read the on-chain audit trail: mints, grants and accesses (0G DA layer).
+  const getAccessLog = useCallback(async (): Promise<AccessLogEntry[]> => {
+    try {
+      const provider = new ethers.JsonRpcProvider(ZERO_G_CHAIN.rpcUrls.default.http[0]);
+      const contract = new ethers.Contract(CONTEXT_REGISTRY_ADDRESS, CONTEXT_REGISTRY_ABI, provider);
+      const latest = await provider.getBlockNumber();
+
+      // Query a filter, shrinking the block range if the RPC rejects it
+      const queryRange = async (filter: ethers.DeferredTopicFilter) => {
+        let span = 90000;
+        for (let attempt = 0; attempt < 5; attempt++) {
+          try {
+            const from = Math.max(0, latest - span);
+            return await contract.queryFilter(filter, from, latest);
+          } catch {
+            span = Math.floor(span / 3);
+          }
+        }
+        return [];
+      };
+
+      const [minted, granted, accessed] = await Promise.all([
+        queryRange(contract.filters.ContextMinted()),
+        queryRange(contract.filters.AccessGranted()),
+        queryRange(contract.filters.ContextAccessed()),
+      ]);
+
+      const entries: AccessLogEntry[] = [];
+      for (const e of minted) {
+        const ev = e as ethers.EventLog;
+        entries.push({ type: 'Minted', tokenId: Number(ev.args.tokenId), actor: ev.args.owner, txHash: ev.transactionHash, blockNumber: ev.blockNumber });
+      }
+      for (const e of granted) {
+        const ev = e as ethers.EventLog;
+        entries.push({ type: 'Granted', tokenId: Number(ev.args.tokenId), actor: ev.args.grantee, txHash: ev.transactionHash, blockNumber: ev.blockNumber });
+      }
+      for (const e of accessed) {
+        const ev = e as ethers.EventLog;
+        entries.push({ type: 'Accessed', tokenId: Number(ev.args.tokenId), actor: ev.args.accessor, txHash: ev.transactionHash, blockNumber: ev.blockNumber });
+      }
+
+      return entries.sort((a, b) => b.blockNumber - a.blockNumber).slice(0, 30);
+    } catch {
+      return [];
+    }
+  }, []);
+
   // Read total supply
   const getTotalSupply = useCallback(async (): Promise<number> => {
     try {
@@ -234,6 +313,8 @@ export function useContextRegistry() {
     grantAccess,
     revokeAccess,
     logAccess,
+    logAccessByBlob,
+    getAccessLog,
     getTotalSupply,
     checkConnection,
     contractAddress: CONTEXT_REGISTRY_ADDRESS,

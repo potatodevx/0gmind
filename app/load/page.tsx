@@ -4,14 +4,16 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { IconBox, IconChat, IconLock, IconGlobe } from '@/components/ui/icons';
+import { useContextRegistry } from '@/components/chain/useContextRegistry';
 
-const MODELS = ['Claude Sonnet 4.5', 'GPT-4o', 'Gemini 1.5 Pro', 'GLM-5', 'Llama 3.1', 'Custom'];
+const MODELS = ['GLM-5 (0G Compute)', 'Claude Sonnet 4.5', 'GPT-4o', 'Gemini 1.5 Pro', 'Llama 3.1', 'Custom'];
 
 function LoadContextContent() {
   const searchParams = useSearchParams();
+  const { logAccessByBlob, explorerUrl } = useContextRegistry();
   const [contextId, setContextId] = useState(searchParams.get('id') || '');
   const [query, setQuery] = useState('');
-  const [targetModel, setTargetModel] = useState('Claude Sonnet 4.5');
+  const [targetModel, setTargetModel] = useState('GLM-5 (0G Compute)');
   const [loading, setLoading] = useState(false);
   const [chatLoading, setChatLoading] = useState(false);
   const [context, setContext] = useState<{
@@ -21,6 +23,8 @@ function LoadContextContent() {
   const [chatResponse, setChatResponse] = useState('');
   const [error, setError] = useState('');
   const [copied, setCopied] = useState('');
+  const [accessLogTx, setAccessLogTx] = useState('');
+  const [logging, setLogging] = useState(false);
 
   useEffect(() => {
     const id = searchParams.get('id');
@@ -50,6 +54,16 @@ function LoadContextContent() {
       if (!data.success) throw new Error(data.message);
 
       setContext({ content: data.content, metadata: data.metadata });
+
+      // Best-effort: record this access on 0G Chain (DA audit trail).
+      // Only fires if a wallet is connected and the blob was minted on-chain.
+      if (window.ethereum) {
+        setLogging(true);
+        setAccessLogTx('');
+        logAccessByBlob(contextId.trim())
+          .then((hash) => { if (hash) setAccessLogTx(hash); })
+          .finally(() => setLogging(false));
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to load context');
     } finally {
@@ -163,13 +177,29 @@ function LoadContextContent() {
             {/* Success Banner */}
             <div className="rounded-2xl p-5 flex items-center gap-4" style={{ background: 'rgba(0,145,255,0.07)', border: '1px solid rgba(0,145,255,0.2)' }}>
               <div style={{ color: '#0091ff' }}><IconBox size={30} /></div>
-              <div>
+              <div className="flex-1">
                 <div className="font-bold" style={{ color: '#0091ff' }}>Context Loaded from 0G Storage</div>
                 <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.85rem' }}>
                   Ready to inject into {targetModel} · Stored at {new Date(context.metadata.createdAt).toLocaleDateString()}
                 </p>
               </div>
             </div>
+
+            {/* On-chain DA access log status */}
+            {logging && (
+              <div className="rounded-xl px-4 py-2.5 flex items-center gap-2" style={{ background: '#F2F7FF', border: '1px solid rgba(0,145,255,0.15)' }}>
+                <span className="spinner inline-block w-3.5 h-3.5 border-2 rounded-full" style={{ borderColor: 'rgba(0,145,255,0.2)', borderTopColor: '#0091ff' }} />
+                <span style={{ fontSize: '0.8rem', color: 'rgba(11,27,46,0.6)' }}>Recording this access on 0G Chain (DA audit trail)…</span>
+              </div>
+            )}
+            {accessLogTx && (
+              <div className="rounded-xl px-4 py-2.5 flex items-center gap-2 flex-wrap" style={{ background: 'rgba(0,145,255,0.07)', border: '1px solid rgba(0,145,255,0.2)' }}>
+                <span style={{ fontSize: '0.8rem', color: '#0091ff', fontWeight: 600 }}>Access logged on 0G Chain</span>
+                <a href={`${explorerUrl}/tx/${accessLogTx}`} target="_blank" rel="noopener noreferrer" className="font-mono" style={{ fontSize: '0.75rem', color: 'rgba(11,27,46,0.55)' }}>
+                  {accessLogTx.slice(0, 14)}… ↗
+                </a>
+              </div>
+            )}
 
             {/* Metadata */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
