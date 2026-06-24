@@ -37,18 +37,7 @@ body {
 
 /* ── Reusable component classes (lavender theme) ── */
 .gradient-text {
-  background: linear-gradient(135deg, #0091ff 0%, #8b5cf6 50%, #0091ff 100%);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient-shift 4s ease infinite;
-}
-
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  color: #0091ff;
 }
 
 .card-glow {

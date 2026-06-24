@@ -33,7 +33,7 @@ export default function HomePage() {
         {/* ── Hero card (full screen with even spacing) ── */}
         <div
           className="absolute inset-4 sm:inset-6 rounded-[28px] border-[6px] border-[#0B1B2E] overflow-hidden shadow-2xl"
-          style={{ background: 'linear-gradient(160deg, #DCE9FF 0%, #CFE2FF 100%)' }}
+          style={{ background: '#DCE9FF' }}
         >
           {/* ── Navbar inside the box (page buttons only, top-right) ── */}
           <header className="absolute top-0 inset-x-0 z-30 flex items-center justify-end px-4 sm:px-7 h-14 sm:h-16">
@@ -196,7 +196,7 @@ export default function HomePage() {
       <section className="px-6 sm:px-10 py-20 bg-[#E6F0FF]">
         <div
           className="max-w-5xl mx-auto rounded-[32px] border-[6px] border-[#0B1B2E] p-10 sm:p-16 text-center relative overflow-hidden"
-          style={{ background: 'linear-gradient(160deg, #DCE9FF, #CFE2FF)' }}
+          style={{ background: '#DCE9FF' }}
         >
           <h2 className="relative text-[#0B1B2E] text-4xl sm:text-6xl font-black leading-none mb-4">
             Your agents.<br /><span className="text-[#0091ff]">One memory.</span>
