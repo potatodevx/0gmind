@@ -29,37 +29,37 @@ export default function HomePage() {
     <div className="bg-[#E6F0FF] text-[#0B1B2E]">
       {/* ════════════════ HERO SCREEN ════════════════ */}
       <div className="relative h-screen w-full overflow-hidden bg-[#E6F0FF]">
-        {/* ── Top navbar ── */}
-        <header className="absolute top-0 inset-x-0 z-30 flex items-center justify-between px-6 sm:px-10 h-[76px]">
-          <Link href="/" className="flex items-center gap-2.5">
-            <Mark size={28} />
-            <span className="font-black tracking-widest text-[#0B1B2E] text-sm">0G MIND</span>
-            <span className="text-[#0091ff] text-[11px] font-mono px-2 py-0.5 rounded-full border border-[#0B1B2E]/25 bg-white/60">
-              GALILEO
-            </span>
-          </Link>
-
-          <div className="flex items-center gap-3">
-            <Link
-              href="/dashboard"
-              className="hidden sm:inline-block text-[#0B1B2E] rounded-full px-4 py-2 text-xs font-black tracking-wide hover:bg-white/60 transition-colors border border-[#0B1B2E]/15 bg-white/40"
-            >
-              DASHBOARD
-            </Link>
-            <Link
-              href="/store"
-              className="bg-[#0B1B2E] text-[#E6F0FF] rounded-full px-5 py-2 text-sm font-black hover:opacity-90 transition-opacity"
-            >
-              Store Context
-            </Link>
-          </div>
-        </header>
-
-        {/* ── Hero card ── */}
+        {/* ── Hero card (full screen with even spacing) ── */}
         <div
-          className="absolute inset-x-4 sm:inset-x-8 top-[84px] bottom-6 rounded-[28px] border-[6px] border-[#0B1B2E] overflow-hidden shadow-2xl"
+          className="absolute inset-4 sm:inset-6 rounded-[28px] border-[6px] border-[#0B1B2E] overflow-hidden shadow-2xl"
           style={{ background: 'linear-gradient(160deg, #DCE9FF 0%, #CFE2FF 100%)' }}
         >
+          {/* ── Navbar inside the box ── */}
+          <header className="absolute top-0 inset-x-0 z-30 flex items-center justify-between px-4 sm:px-7 h-14 sm:h-16">
+            <Link href="/" className="flex items-center gap-2">
+              <Mark size={22} />
+              <span className="font-black tracking-widest text-[#0B1B2E] text-[11px] sm:text-xs">0G MIND</span>
+              <span className="hidden sm:inline-block text-[#0091ff] text-[9px] font-mono px-1.5 py-0.5 rounded-full border border-[#0B1B2E]/25 bg-white/60">
+                GALILEO
+              </span>
+            </Link>
+
+            <div className="flex items-center gap-2">
+              <Link
+                href="/dashboard"
+                className="text-[#0B1B2E] rounded-full px-3 py-1.5 text-[10px] sm:text-[11px] font-black tracking-wide hover:bg-white/70 transition-colors border border-[#0B1B2E]/20 bg-white/50"
+              >
+                DASHBOARD
+              </Link>
+              <Link
+                href="/store"
+                className="bg-[#0B1B2E] text-[#E6F0FF] rounded-full px-3.5 py-1.5 text-[10px] sm:text-[11px] font-black hover:opacity-90 transition-opacity"
+              >
+                STORE CONTEXT
+              </Link>
+            </div>
+          </header>
+
           {/* 3D memory core */}
           <div className="absolute inset-0 z-0">
             <MemoryCore />
@@ -81,7 +81,7 @@ export default function HomePage() {
             initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="absolute top-7 left-7 sm:top-10 sm:left-10 z-10 max-w-[75%] pointer-events-none"
+            className="absolute top-20 left-5 sm:top-28 sm:left-10 z-10 max-w-[80%] pointer-events-none"
           >
             <div className="flex items-center gap-2 mb-4">
               <span className="h-px w-8 bg-[#0B1B2E]" />
