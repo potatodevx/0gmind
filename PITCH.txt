@@ -43,27 +43,74 @@ instantly knows everything the previous agent knew.
 THE PAIN POINT (why this matters)
 ----------------------------------------------------------------
 
-1. MEMORY DIES WITH THE MODEL
-   Context windows are temporary. Close the tab, lose the
-   brain. There is no "save file" for an AI's mind.
+Picture this real-world handoff:
 
-2. MEMORY IS NOT PORTABLE
-   You cannot take a Claude conversation and continue it in
-   GPT, or hand your agent's state to a teammate's agent.
+  Company A has an AI agent that knows EVERYTHING about a
+  customer — every past order, every support ticket, every
+  preference, every conversation. Years of context.
 
-3. MEMORY IS NOT OWNED
-   The context you spent hours building belongs to the
-   provider, not to you. You cannot sell it, license it,
-   transfer it, or revoke it.
+  The customer moves to Company B. Company B's agent starts
+  from ZERO. It re-asks everything the customer already
+  answered a hundred times. All that hard-won memory is
+  trapped inside Company A and dies there.
 
-4. NO AUDIT TRAIL
-   You have zero proof of who accessed your agent's memory
-   or when.
+The same thing happens everywhere:
 
-These are not small UX problems. As the world moves to
-multi-agent systems, portable + ownable + verifiable memory
-becomes critical infrastructure. That layer does not exist
-today. 0GMind is that layer.
+  - You switch from GPT to Claude — the whole relationship
+    resets to a blank slate.
+  - A founder hands a project agent to a new teammate — the
+    teammate's agent knows nothing.
+  - A startup gets acquired — the customer-AI memory can't be
+    cleanly transferred, owned, or audited.
+
+Today there is no way to hand off an agent's brain. Memory is
+locked inside one provider, one company, one session. It is:
+
+1. NOT PORTABLE — you can't move a Claude memory into GPT, or
+   from Company A's agent into Company B's agent.
+
+2. NOT OWNED — the context you (or your company) built belongs
+   to the provider. You can't transfer, license, or revoke it.
+
+3. NOT PERSISTENT — close the tab or restart the agent and the
+   brain is gone. There is no "save file" for an AI's mind.
+
+4. NOT VERIFIABLE — zero proof of who accessed the memory, or
+   when.
+
+As the world moves to multi-agent systems and AI changes hands
+between people and companies, portable + ownable + verifiable
+memory becomes critical infrastructure. That layer does not
+exist today. 0GMind is that layer.
+
+
+----------------------------------------------------------------
+WHY WE USE EVERY LAYER OF 0G (not a bolt-on)
+----------------------------------------------------------------
+
+This is the key point for judging: remove any single 0G layer
+and the product breaks. We are not "using 0G for storage" —
+we are using the FULL stack as designed.
+
+  0G STORAGE  — the memory itself. Encrypted context blobs
+                live here. Decentralized and permanent. This
+                is what makes memory portable between agents
+                and companies.
+
+  0G COMPUTE  — the brain. Inference runs on 0G's
+                decentralized GPU network (glm-5). For private
+                contexts, inference happens inside a TEE so
+                even node operators never see the data.
+
+  0G CHAIN    — the ownership. Each context is an ERC-721 NFT.
+                Company A can transfer it, license it, grant
+                access to Company B, or revoke it — all
+                on-chain.
+
+  0G DA       — the trust. Every access fires an on-chain
+                ContextAccessed event. A permanent,
+                uncensorable audit trail of who used the
+                memory and when.
 
 
 ----------------------------------------------------------------
@@ -80,36 +127,11 @@ We treat an AI context like a file with an address.
                                               v
               any agent  <-  load by blob ID  <-  0G Compute
 
-The blob ID is the portable memory address. Whoever holds it
-(and has access rights) can rehydrate the full agent state
-into ANY model through 0G Compute — no provider lock-in.
-
-
-----------------------------------------------------------------
-WHY WE USE EVERY LAYER OF 0G (not a bolt-on)
-----------------------------------------------------------------
-
-This is the key point for judging: remove any single 0G layer
-and the product breaks. We are not "using 0G for storage" —
-we are using the FULL stack as designed.
-
-  0G STORAGE  — the memory itself. Encrypted context blobs
-                live here. Decentralized and permanent. This
-                is what makes memory portable.
-
-  0G COMPUTE  — the brain. Inference runs on 0G's
-                decentralized GPU network (glm-5). For private
-                contexts, inference happens inside a TEE so
-                even node operators never see the data.
-
-  0G CHAIN    — the ownership. Each context is an ERC-721 NFT.
-                Transfer it, license it, grant access, revoke
-                access — all on-chain.
-
-  0G DA       — the trust. Every access fires an on-chain
-                ContextAccessed event. A permanent,
-                uncensorable audit trail of who used your
-                memory.
+The blob ID is the portable memory address. Company A stores
+the customer's memory once and gets a blob ID. To hand it to
+Company B, it grants access (or transfers the NFT) — and
+Company B's agent rehydrates the FULL memory into ANY model
+through 0G Compute. No re-asking. No provider lock-in.
 
 
 ----------------------------------------------------------------
