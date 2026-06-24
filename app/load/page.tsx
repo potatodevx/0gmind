@@ -225,7 +225,7 @@ function LoadContextContent() {
                   onClick={handleChat}
                   disabled={chatLoading || !query.trim()}
                   className="px-5 py-3 rounded-xl font-semibold transition-all shrink-0"
-                  style={{ background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', color: '#0B1B2E', opacity: chatLoading || !query.trim() ? 0.6 : 1 }}
+                  style={{ background: '#0B1B2E', color: '#ffffff', opacity: chatLoading || !query.trim() ? 0.6 : 1 }}
                 >
                   {chatLoading ? '...' : 'Ask'}
                 </button>
