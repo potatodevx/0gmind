@@ -175,6 +175,38 @@ export function useContextRegistry() {
     return contexts.sort((a, b) => b.createdAt - a.createdAt);
   }, []);
 
+  // Read ALL public contexts directly from chain (persistent — survives backend restarts)
+  const getAllPublicContexts = useCallback(async (): Promise<OnChainContext[]> => {
+    try {
+      const provider = new ethers.JsonRpcProvider(ZERO_G_CHAIN.rpcUrls.default.http[0]);
+      const contract = new ethers.Contract(CONTEXT_REGISTRY_ADDRESS, CONTEXT_REGISTRY_ABI, provider);
+      const total = Number(await contract.totalSupply());
+      const out: OnChainContext[] = [];
+      for (let i = 1; i <= total; i++) {
+        try {
+          const d = await contract.contextData(i);
+          if (!d.isPublic) continue;
+          const owner: string = await contract.ownerOf(i);
+          out.push({
+            tokenId: i,
+            blobId: d.blobId,
+            modelName: d.modelName,
+            description: d.description,
+            createdAt: Number(d.createdAt) * 1000,
+            isPublic: d.isPublic,
+            sizeBytes: Number(d.sizeBytes),
+            owner,
+          });
+        } catch {
+          // skip invalid token
+        }
+      }
+      return out.sort((a, b) => b.createdAt - a.createdAt);
+    } catch {
+      return [];
+    }
+  }, []);
+
   // Grant access to an address
   const grantAccess = useCallback(async (tokenId: number, grantee: string): Promise<string> => {
     const provider = getProvider();
@@ -310,6 +342,7 @@ export function useContextRegistry() {
     connectWallet,
     mintContext,
     getMyContexts,
+    getAllPublicContexts,
     grantAccess,
     revokeAccess,
     logAccess,

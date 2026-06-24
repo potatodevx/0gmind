@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { IconGlobe } from '@/components/ui/icons';
+import { useContextRegistry } from '@/components/chain/useContextRegistry';
 
 interface PublicContext {
   contextId: string;
@@ -26,6 +27,7 @@ const MODEL_COLORS: Record<string, string> = {
 };
 
 export default function MarketplacePage() {
+  const { getAllPublicContexts } = useContextRegistry();
   const [contexts, setContexts] = useState<PublicContext[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -34,12 +36,40 @@ export default function MarketplacePage() {
   const allModels = ['All', 'GLM-5 (0G Compute)', 'Claude Sonnet 4.5', 'GPT-4o', 'Gemini 1.5 Pro', 'Llama 3.1', 'Custom'];
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/context/list`)
-      .then((r) => r.json())
-      .then((data) => setContexts(data.contexts || []))
+    // Source of truth = on-chain public contexts (persistent). Enrich with
+    // backend summary / load count when available.
+    Promise.allSettled([
+      getAllPublicContexts(),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/context/list`).then((r) => r.json()),
+    ])
+      .then(([chainRes, apiRes]) => {
+        const apiList = apiRes.status === 'fulfilled' ? (apiRes.value.contexts || []) : [];
+        const apiByBlob = new Map<string, { summary: string; accessCount: number }>(
+          apiList.map((c: { contextId: string; summary: string; accessCount: number }) => [c.contextId.toLowerCase(), { summary: c.summary, accessCount: c.accessCount }])
+        );
+
+        if (chainRes.status === 'fulfilled' && chainRes.value.length > 0) {
+          const merged: PublicContext[] = chainRes.value.map((c) => {
+            const extra = apiByBlob.get(c.blobId.toLowerCase());
+            return {
+              contextId: c.blobId,
+              model: c.modelName,
+              description: c.description,
+              summary: extra?.summary || '',
+              size: c.sizeBytes,
+              timestamp: c.createdAt,
+              accessCount: extra?.accessCount || 0,
+            };
+          });
+          setContexts(merged);
+        } else {
+          // fallback to backend-only list if chain read returns nothing
+          setContexts(apiList);
+        }
+      })
       .catch(() => setContexts([]))
       .finally(() => setLoading(false));
-  }, []);
+  }, [getAllPublicContexts]);
 
   const filtered = contexts.filter((c) => {
     const matchSearch = !search || c.description?.toLowerCase().includes(search.toLowerCase()) || c.summary?.toLowerCase().includes(search.toLowerCase());

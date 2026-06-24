@@ -10,9 +10,10 @@ const EXPLORER = process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://chainscan-gali
 const CONTRACT = process.env.NEXT_PUBLIC_CONTEXT_REGISTRY_ADDRESS || '';
 
 export default function DashboardPage() {
-  const { account, connecting, connectWallet, getMyContexts, grantAccess, getTotalSupply, getAccessLog, checkConnection, contractAddress } = useContextRegistry();
+  const { account, connecting, connectWallet, getMyContexts, getAllPublicContexts, grantAccess, getTotalSupply, getAccessLog, checkConnection, contractAddress } = useContextRegistry();
 
   const [onChainContexts, setOnChainContexts] = useState<OnChainContext[]>([]);
+  const [publicContexts, setPublicContexts] = useState<OnChainContext[]>([]);
   const [apiContexts, setApiContexts] = useState<{ contextId: string; model: string; description: string; summary: string; size: number; timestamp: number; accessCount: number }[]>([]);
   const [accessLog, setAccessLog] = useState<AccessLogEntry[]>([]);
   const [logLoading, setLogLoading] = useState(true);
@@ -42,6 +43,12 @@ export default function DashboardPage() {
     setLoading(false);
   }, [getMyContexts, getTotalSupply]);
 
+  // backend summary lookup by blob ID (for enriching on-chain public contexts)
+  const summaryFor = useCallback((blobId: string): string => {
+    const match = apiContexts.find(c => c.contextId.toLowerCase() === blobId.toLowerCase());
+    return match?.summary || '';
+  }, [apiContexts]);
+
   useEffect(() => {
     checkConnection().then((addr) => { if (addr) loadData(addr); });
     getTotalSupply().then(setTotalSupply);
@@ -51,7 +58,9 @@ export default function DashboardPage() {
     // load the on-chain DA audit trail (mints, grants, accesses)
     setLogLoading(true);
     getAccessLog().then(setAccessLog).finally(() => setLogLoading(false));
-  }, [checkConnection, loadData, getTotalSupply, getAccessLog]);
+    // load public contexts from chain (persistent — independent of backend memory)
+    getAllPublicContexts().then(setPublicContexts).catch(() => {});
+  }, [checkConnection, loadData, getTotalSupply, getAccessLog, getAllPublicContexts]);
 
   const handleConnect = async () => {
     const addr = await connectWallet();
@@ -107,7 +116,7 @@ export default function DashboardPage() {
           {[
             { label: 'Total On-Chain', value: totalSupply, color: '#0091ff' },
             { label: 'My NFTs', value: onChainContexts.length, color: '#8b5cf6' },
-            { label: 'Public Contexts', value: apiContexts.length, color: '#0091ff' },
+            { label: 'Public Contexts', value: publicContexts.length, color: '#0091ff' },
             { label: 'Network', value: 'Galileo', color: '#8b5cf6', isText: true },
           ].map((s, i) => (
             <div key={i} className="card-glow rounded-xl p-5 text-center" style={{ background: '#ffffff' }}>
@@ -286,39 +295,45 @@ export default function DashboardPage() {
           )}
         </section>
 
-        {/* API/public contexts */}
+        {/* Public contexts — read from chain (persistent) */}
         <section>
           <h2 className="font-bold text-lg mb-4 flex items-center gap-2" style={{ color: '#0B1B2E' }}>
             <IconDatabase size={18} /> Public Contexts
-            <span className="text-sm font-normal" style={{ color: 'rgba(11,27,46,0.45)' }}>(0G Storage)</span>
+            <span className="text-sm font-normal" style={{ color: 'rgba(11,27,46,0.45)' }}>(0G Chain · anyone can load)</span>
           </h2>
-          {apiContexts.length === 0 ? (
+          {publicContexts.length === 0 ? (
             <div className="rounded-xl p-6 text-center" style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.1)' }}>
-              <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem' }}>No public contexts yet.</p>
+              <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem' }}>No public contexts yet. Store one with the Public toggle on to list it here.</p>
             </div>
           ) : (
             <div className="space-y-3">
-              {apiContexts.map((ctx) => (
-                <div key={ctx.contextId} className="card-glow rounded-2xl p-4" style={{ background: '#ffffff' }}>
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex-1 min-w-0">
-                      <div className="font-semibold mb-0.5 truncate" style={{ color: '#0B1B2E' }}>{ctx.description || 'Untitled'}</div>
-                      <div style={{ fontSize: '0.8rem', color: 'rgba(11,27,46,0.5)' }}>
-                        {ctx.model} · {formatSize(ctx.size)} · {ctx.accessCount} loads · {timeAgo(ctx.timestamp)}
+              {publicContexts.map((ctx) => {
+                const summary = summaryFor(ctx.blobId);
+                return (
+                  <div key={ctx.blobId} className="card-glow rounded-2xl p-4" style={{ background: '#ffffff' }}>
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold mb-0.5 truncate" style={{ color: '#0B1B2E' }}>{ctx.description || 'Untitled'}</div>
+                        <div style={{ fontSize: '0.8rem', color: 'rgba(11,27,46,0.5)' }}>
+                          {ctx.modelName} · {formatSize(ctx.sizeBytes)} · {timeAgo(ctx.createdAt)}
+                        </div>
+                        {summary && (
+                          <p className="mt-1 truncate" style={{ fontSize: '0.78rem', color: 'rgba(11,27,46,0.45)' }}>{summary}</p>
+                        )}
                       </div>
+                      <Link href={`/load?id=${ctx.blobId}`} className="shrink-0">
+                        <button className="btn-secondary text-xs px-4 py-2">Load →</button>
+                      </Link>
                     </div>
-                    <Link href={`/load?id=${ctx.contextId}`} className="shrink-0">
-                      <button className="btn-secondary text-xs px-4 py-2">Load →</button>
-                    </Link>
+                    <div className="mt-2 flex items-center gap-2">
+                      <div className="blob-id text-xs px-2 py-1 truncate max-w-xs">{ctx.blobId.slice(0, 30)}...</div>
+                      <button onClick={() => copy(ctx.blobId, ctx.blobId)} style={{ fontSize: '0.75rem', color: copied === ctx.blobId ? '#0091ff' : 'rgba(11,27,46,0.45)' }}>
+                        {copied === ctx.blobId ? '✓' : 'Copy'}
+                      </button>
+                    </div>
                   </div>
-                  <div className="mt-2 flex items-center gap-2">
-                    <div className="blob-id text-xs px-2 py-1 truncate max-w-xs">{ctx.contextId.slice(0, 30)}...</div>
-                    <button onClick={() => copy(ctx.contextId, ctx.contextId)} style={{ fontSize: '0.75rem', color: copied === ctx.contextId ? '#0091ff' : 'rgba(11,27,46,0.45)' }}>
-                      {copied === ctx.contextId ? '✓' : 'Copy'}
-                    </button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </section>
