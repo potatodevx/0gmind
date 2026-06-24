@@ -101,8 +101,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="absolute bottom-7 right-4 left-4 sm:left-auto sm:bottom-10 sm:right-10 z-10 sm:w-[390px] rounded-2xl p-5"
-            style={{ background: 'rgba(255,255,255,0.82)', border: '2px solid rgba(11,27,46,0.12)', backdropFilter: 'blur(8px)' }}
+            className="absolute bottom-7 right-4 left-4 sm:left-auto sm:bottom-10 sm:right-10 z-10 sm:w-[390px]"
           >
             <p className="inline-block text-[#0091ff] bg-[#0091ff]/10 px-4 py-1 rounded-full text-sm font-semibold mb-3">
               Memory that outlives the model

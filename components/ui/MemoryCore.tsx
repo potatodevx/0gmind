@@ -2,7 +2,7 @@
 
 import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Icosahedron, MeshDistortMaterial, Line, Sparkles, Float } from '@react-three/drei';
+import { Line, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Lavender / blue palette
@@ -10,37 +10,74 @@ const BLUE = '#0091ff';
 const CYAN = '#00C2FF';
 const NAVY = '#0B1B2E';
 
-// Central crystalline "memory core" — a distorting purple icosahedron
-// wrapped in a slowly counter-rotating wireframe shell.
-function Core() {
+// Wireframe geodesic "memory lattice" — nested rotating icosahedrons with
+// glowing nodes at every vertex. Clean, techy, no solid blob.
+function Lattice() {
+  const outer = useRef<THREE.Group>(null);
   const inner = useRef<THREE.Mesh>(null);
-  const shell = useRef<THREE.Mesh>(null);
+  const core = useRef<THREE.Mesh>(null);
 
-  useFrame((_, dt) => {
-    if (inner.current) inner.current.rotation.y += dt * 0.25;
-    if (shell.current) {
-      shell.current.rotation.y -= dt * 0.12;
-      shell.current.rotation.x += dt * 0.05;
+  // 12 vertices of the base icosahedron for the glowing nodes
+  const vertices = useMemo(() => {
+    const g = new THREE.IcosahedronGeometry(2.25, 0);
+    const pos = g.attributes.position;
+    const seen = new Set<string>();
+    const out: THREE.Vector3[] = [];
+    for (let i = 0; i < pos.count; i++) {
+      const v = new THREE.Vector3().fromBufferAttribute(pos, i);
+      const key = `${v.x.toFixed(2)},${v.y.toFixed(2)},${v.z.toFixed(2)}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        out.push(v);
+      }
+    }
+    g.dispose();
+    return out;
+  }, []);
+
+  useFrame((state, dt) => {
+    if (outer.current) {
+      outer.current.rotation.y += dt * 0.16;
+      outer.current.rotation.x += dt * 0.05;
+    }
+    if (inner.current) {
+      inner.current.rotation.y -= dt * 0.22;
+      inner.current.rotation.z += dt * 0.08;
+    }
+    if (core.current) {
+      const s = 1 + Math.sin(state.clock.elapsedTime * 1.5) * 0.08;
+      core.current.scale.setScalar(s);
     }
   });
 
   return (
-    <Float speed={1.6} rotationIntensity={0.4} floatIntensity={0.7}>
-      <Icosahedron ref={inner} args={[1, 5]}>
-        <MeshDistortMaterial
-          color={BLUE}
-          emissive={BLUE}
-          emissiveIntensity={0.15}
-          roughness={0.25}
-          metalness={0.35}
-          distort={0.32}
-          speed={2.2}
-        />
-      </Icosahedron>
-      <Icosahedron ref={shell} args={[1.55, 1]}>
-        <meshBasicMaterial color={NAVY} wireframe transparent opacity={0.35} />
-      </Icosahedron>
-    </Float>
+    <group>
+      {/* faint translucent core */}
+      <mesh ref={core}>
+        <sphereGeometry args={[0.55, 32, 32]} />
+        <meshBasicMaterial color={BLUE} transparent opacity={0.18} />
+      </mesh>
+
+      {/* inner counter-rotating geodesic */}
+      <mesh ref={inner}>
+        <icosahedronGeometry args={[1.35, 1]} />
+        <meshBasicMaterial color={BLUE} wireframe transparent opacity={0.35} />
+      </mesh>
+
+      {/* outer geodesic grill + glowing vertex nodes */}
+      <group ref={outer}>
+        <mesh>
+          <icosahedronGeometry args={[2.25, 1]} />
+          <meshBasicMaterial color={NAVY} wireframe transparent opacity={0.4} />
+        </mesh>
+        {vertices.map((v, i) => (
+          <mesh key={i} position={[v.x, v.y, v.z]}>
+            <sphereGeometry args={[0.07, 16, 16]} />
+            <meshBasicMaterial color={i % 2 === 0 ? BLUE : CYAN} />
+          </mesh>
+        ))}
+      </group>
+    </group>
   );
 }
 
@@ -52,7 +89,6 @@ interface RingProps {
   count?: number;
 }
 
-// An orbit ring with traveling "agent" nodes around the core.
 function Ring({ radius, tilt, color, speed, count = 1 }: RingProps) {
   const orbit = useRef<THREE.Group>(null);
 
@@ -71,14 +107,14 @@ function Ring({ radius, tilt, color, speed, count = 1 }: RingProps) {
 
   return (
     <group rotation={[tilt, 0, 0]}>
-      <Line points={points} color={color} lineWidth={1.2} transparent opacity={0.4} />
+      <Line points={points} color={color} lineWidth={1.2} transparent opacity={0.35} />
       <group ref={orbit}>
         {Array.from({ length: count }).map((_, i) => {
           const ang = (i / count) * Math.PI * 2;
           return (
             <mesh key={i} position={[Math.cos(ang) * radius, 0, Math.sin(ang) * radius]}>
-              <sphereGeometry args={[0.12, 24, 24]} />
-              <meshStandardMaterial color={color} roughness={0.3} metalness={0.2} />
+              <sphereGeometry args={[0.11, 24, 24]} />
+              <meshBasicMaterial color={color} />
             </mesh>
           );
         })}
@@ -91,23 +127,18 @@ function Scene() {
   const root = useRef<THREE.Group>(null);
 
   useFrame((_, dt) => {
-    if (root.current) root.current.rotation.y += dt * 0.06;
+    if (root.current) root.current.rotation.y += dt * 0.04;
   });
 
   return (
     <>
-      <ambientLight intensity={1.1} />
-      <directionalLight position={[5, 6, 5]} intensity={2.4} color="#ffffff" />
-      <pointLight position={[-4, -2, 4]} intensity={40} color={CYAN} />
-
+      <ambientLight intensity={1.2} />
       <group ref={root}>
-        <Core />
-        <Ring radius={2.3} tilt={0.55} color={BLUE} speed={0.35} count={2} />
-        <Ring radius={3.0} tilt={-0.35} color={CYAN} speed={-0.26} count={1} />
-        <Ring radius={3.7} tilt={0.95} color={NAVY} speed={0.18} count={2} />
+        <Lattice />
+        <Ring radius={3.1} tilt={0.5} color={BLUE} speed={0.3} count={2} />
+        <Ring radius={3.8} tilt={-0.4} color={CYAN} speed={-0.22} count={1} />
       </group>
-
-      <Sparkles count={60} scale={11} size={3} speed={0.3} color={BLUE} opacity={0.7} />
+      <Sparkles count={50} scale={11} size={3} speed={0.3} color={BLUE} opacity={0.6} />
     </>
   );
 }
