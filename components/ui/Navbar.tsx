@@ -15,6 +15,9 @@ export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Home page has its own dedicated header (Monad-style hero)
+  if (pathname === '/') return null;
+
   return (
     <nav
       className="fixed top-0 left-0 right-0 z-50"

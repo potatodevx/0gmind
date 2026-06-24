@@ -1,359 +1,264 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
-const STATS = [
-  { label: 'Contexts Stored', value: '0', suffix: '+', key: 'contexts' },
-  { label: 'Agents Powered', value: '0', suffix: '+', key: 'agents' },
-  { label: 'Storage Used', value: '0', suffix: ' KB', key: 'storage' },
-  { label: 'Transfers Done', value: '0', suffix: '+', key: 'transfers' },
-];
+const MemoryScene = dynamic(
+  () => import('@/components/ui/MemoryScene').then((m) => ({ default: m.MemoryScene })),
+  { ssr: false }
+);
 
-const FEATURES = [
-  {
-    icon: '🗄️',
-    title: '0G Storage Layer',
-    desc: 'Every agent context stored as an encrypted blob on 0G decentralized storage. 2 GB/s throughput. No vendor lock-in.',
-    color: '#00d4ff',
-  },
-  {
-    icon: '🔒',
-    title: 'Sealed Inference',
-    desc: 'Context is processed inside a hardware TEE. Not even 0G node operators can read your data. Cryptographic proof attached.',
-    color: '#8b5cf6',
-  },
-  {
-    icon: '🆔',
-    title: 'On-Chain Ownership',
-    desc: 'Every context minted as an NFT on 0G Chain. Transfer, license, or revoke access at any time. You own your memory.',
-    color: '#10b981',
-  },
-  {
-    icon: '⚡',
-    title: 'Universal Compatibility',
-    desc: 'Load any context into Claude, GPT, Gemini, or any model. One blob ID works everywhere. Switch models without losing history.',
-    color: '#f59e0b',
-  },
-];
+const CONTRACT_ADDRESS =
+  process.env.NEXT_PUBLIC_CONTEXT_REGISTRY_ADDRESS ||
+  '0x958a498B4f1Bd1F197BC177F8398e656efD44422';
+const EXPLORER = process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://chainscan-galileo.0g.ai';
+const CONTRACT_URL = `${EXPLORER}/address/${CONTRACT_ADDRESS}`;
 
-const HOW_IT_WORKS = [
-  {
-    step: '01',
-    title: 'Paste Your Context',
-    desc: 'Paste any AI conversation, prompt history, or agent memory into 0GMind.',
-    color: '#00d4ff',
-  },
-  {
-    step: '02',
-    title: 'Store on 0G',
-    desc: 'Context is encrypted and stored on 0G Storage. You receive a unique blob ID (root hash).',
-    color: '#8b5cf6',
-  },
-  {
-    step: '03',
-    title: 'Share the ID',
-    desc: 'Share the blob ID with any agent, model, or collaborator. Ownership is on-chain.',
-    color: '#10b981',
-  },
-  {
-    step: '04',
-    title: 'Load Anywhere',
-    desc: 'Any agent loads the blob ID and instantly inherits the full context. Memory is portable.',
-    color: '#f59e0b',
-  },
-];
+// 0G logo mark — a stylized memory node
+function Mark({ size = 28 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="6" y="6" width="88" height="88" rx="26" fill="#0091ff" />
+      <rect x="6" y="6" width="88" height="88" rx="26" fill="url(#g)" />
+      <text x="50" y="66" textAnchor="middle" fontSize="44" fontWeight="900" fill="white" fontFamily="Inter, sans-serif">0G</text>
+      <defs>
+        <linearGradient id="g" x1="6" y1="6" x2="94" y2="94" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#0091ff" />
+          <stop offset="1" stopColor="#00c2ff" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
 
 export default function HomePage() {
-  const [stats, setStats] = useState({ contexts: 0, agents: 0, storage: 0, transfers: 0 });
-  const [particles, setParticles] = useState<{ x: number; y: number; size: number; speed: number; opacity: number }[]>([]);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    // Fetch live stats
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/context/stats`)
-      .then((r) => r.json())
-      .then((data) => {
-        setStats({
-          contexts: data.totalContexts || 0,
-          agents: data.totalAccesses || 0,
-          storage: Math.round((data.totalSizeBytes || 0) / 1024),
-          transfers: data.totalAccesses || 0,
-        });
-      })
-      .catch(() => {
-        // Use placeholder stats for demo
-        setStats({ contexts: 142, agents: 891, storage: 2840, transfers: 312 });
-      });
-
-    // Generate particles
-    const p = Array.from({ length: 40 }, () => ({
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 2 + 1,
-      speed: Math.random() * 0.5 + 0.1,
-      opacity: Math.random() * 0.5 + 0.1,
-    }));
-    setParticles(p);
-  }, []);
-
   return (
-    <div style={{ background: '#050a14', minHeight: '100vh' }}>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden grid-bg" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-        {/* Animated background gradient */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,212,255,0.06) 0%, rgba(139,92,246,0.04) 50%, transparent 100%)',
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Particles */}
-        {mounted && (
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {particles.map((p, i) => (
-              <div
-                key={i}
-                className="absolute rounded-full"
-                style={{
-                  left: `${p.x}%`,
-                  top: `${p.y}%`,
-                  width: `${p.size}px`,
-                  height: `${p.size}px`,
-                  background: i % 2 === 0 ? '#00d4ff' : '#8b5cf6',
-                  opacity: p.opacity,
-                  animation: `pulse-glow ${2 + p.speed * 3}s ease-in-out infinite`,
-                }}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* Corner decorations */}
-        <div className="absolute top-0 left-0 w-64 h-64 opacity-20" style={{ background: 'radial-gradient(circle, rgba(0,212,255,0.3) 0%, transparent 70%)' }} />
-        <div className="absolute bottom-0 right-0 w-96 h-96 opacity-20" style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.3) 0%, transparent 70%)' }} />
-
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-24 text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full" style={{ background: 'rgba(0,212,255,0.1)', border: '1px solid rgba(0,212,255,0.3)' }}>
-            <span className="pulse-dot w-2 h-2 rounded-full" style={{ background: '#00d4ff' }} />
-            <span style={{ color: '#00d4ff', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.05em' }}>
-              LIVE ON 0G GALILEO TESTNET
+    <div className="bg-[#E6F0FF]">
+      {/* ════════════════ HERO SCREEN (Monad-style bordered card) ════════════════ */}
+      <div className="relative h-screen w-screen overflow-hidden bg-[#E6F0FF]">
+        {/* ── Top navbar ── */}
+        <header className="absolute top-0 inset-x-0 z-30 flex items-center justify-between px-6 sm:px-10 h-[76px]">
+          <Link href="/" className="flex items-center gap-2.5">
+            <Mark size={28} />
+            <span className="font-black tracking-widest text-[#0B1B2E] text-sm">0G MIND</span>
+            <span className="text-[#0091ff] text-[11px] font-mono px-2 py-0.5 rounded-full border border-[#0B1B2E]/25 bg-white/60">
+              GALILEO
             </span>
-          </div>
+          </Link>
 
-          {/* Main Title */}
-          <h1
-            className="font-black mb-6"
-            style={{ fontSize: 'clamp(3rem, 8vw, 7rem)', lineHeight: 1.05, letterSpacing: '-0.02em' }}
-          >
-            <span className="gradient-text">0G</span>
-            <span style={{ color: 'white' }}>Mind</span>
-          </h1>
-
-          {/* Tagline */}
-          <p
-            className="mb-4 font-bold"
-            style={{ fontSize: 'clamp(1.2rem, 3vw, 1.8rem)', color: 'rgba(255,255,255,0.9)', letterSpacing: '0.02em' }}
-          >
-            Portable AI Memory. One Blob ID. Any Agent. Forever.
-          </p>
-
-          <p
-            className="mb-12 mx-auto"
-            style={{ maxWidth: '640px', fontSize: '1.1rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}
-          >
-            Store AI agent context on 0G Storage. Transfer memory across models.
-            Own your intelligence on-chain. No vendor lock-in. Ever.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mb-16">
-            <Link href="/store">
-              <button className="btn-primary text-lg px-8 py-4">
-                Store Context →
-              </button>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/dashboard"
+              className="hidden sm:inline-block text-[#0B1B2E] rounded-full px-4 py-2 text-xs font-black tracking-wide hover:bg-white/60 transition-colors border border-[#0B1B2E]/15 bg-white/40"
+            >
+              DASHBOARD
             </Link>
-            <Link href="/load">
-              <button className="btn-secondary text-lg px-8 py-4">
-                Load Context
-              </button>
+            <Link
+              href="/store"
+              className="bg-[#0B1B2E] text-[#E6F0FF] rounded-full px-5 py-2 text-sm font-bold hover:opacity-90 transition-opacity"
+            >
+              Store Context
             </Link>
           </div>
+        </header>
 
-          {/* Stats Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            {[
-              { label: 'Contexts Stored', value: stats.contexts },
-              { label: 'Agent Loads', value: stats.agents },
-              { label: 'KB on 0G', value: stats.storage },
-              { label: 'Transfers', value: stats.transfers },
-            ].map((s, i) => (
-              <div key={i} className="card-glow rounded-xl p-4" style={{ background: 'rgba(13,21,38,0.8)' }}>
-                <div className="font-black text-2xl mb-1" style={{ color: '#00d4ff' }}>
-                  {s.value.toLocaleString()}+
-                </div>
-                <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>
-                  {s.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Bottom gradient fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32" style={{ background: 'linear-gradient(transparent, #050a14)' }} />
-      </section>
-
-      {/* How It Works */}
-      <section className="py-24 px-6" style={{ background: '#050a14' }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <p style={{ color: '#00d4ff', fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.85rem', marginBottom: '12px' }}>
-              THE PROTOCOL
-            </p>
-            <h2 className="font-black text-4xl md:text-5xl" style={{ color: 'white' }}>
-              How <span className="gradient-text">0GMind</span> Works
-            </h2>
+        {/* ── Hero card ── */}
+        <div className="absolute inset-x-4 sm:inset-x-8 top-[84px] bottom-6 rounded-[28px] border-[6px] border-[#0B1B2E] bg-[#CFE2FF] overflow-hidden shadow-2xl">
+          {/* Animated memory visualization */}
+          <div className="absolute inset-0 z-0">
+            <MemoryScene />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {HOW_IT_WORKS.map((item, i) => (
-              <div key={i} className="relative card-glow rounded-2xl p-6 fade-in-up" style={{ background: '#0d1526', animationDelay: `${i * 0.1}s` }}>
-                {i < HOW_IT_WORKS.length - 1 && (
-                  <div className="hidden md:block absolute top-10 -right-3 z-10 text-lg" style={{ color: 'rgba(255,255,255,0.2)' }}>→</div>
-                )}
-                <div className="font-black text-5xl mb-4" style={{ color: item.color, opacity: 0.3, fontFamily: 'monospace' }}>
-                  {item.step}
-                </div>
-                <h3 className="font-bold text-lg mb-3" style={{ color: item.color }}>
-                  {item.title}
-                </h3>
-                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-24 px-6 grid-bg" style={{ background: '#080e1b' }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <p style={{ color: '#8b5cf6', fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.85rem', marginBottom: '12px' }}>
-              0G STACK
-            </p>
-            <h2 className="font-black text-4xl md:text-5xl" style={{ color: 'white' }}>
-              Built on <span className="gradient-text">Every Layer</span>
-            </h2>
-            <p className="mt-4 text-lg" style={{ color: 'rgba(255,255,255,0.5)', maxWidth: '500px', margin: '16px auto 0' }}>
-              0GMind is not a bolt-on. Remove 0G and the product breaks.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {FEATURES.map((f, i) => (
-              <div key={i} className="card-glow rounded-2xl p-8 fade-in-up" style={{ background: '#0d1526', animationDelay: `${i * 0.1}s` }}>
-                <div className="flex items-start gap-5">
-                  <div
-                    className="text-3xl w-14 h-14 flex items-center justify-center rounded-xl flex-shrink-0"
-                    style={{ background: `${f.color}15`, border: `1px solid ${f.color}30` }}
-                  >
-                    {f.icon}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg mb-2" style={{ color: f.color }}>
-                      {f.title}
-                    </h3>
-                    <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-                      {f.desc}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 0G Stack breakdown */}
-      <section className="py-24 px-6" style={{ background: '#050a14' }}>
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="font-black text-4xl" style={{ color: 'white' }}>
-              The <span className="gradient-text">0G Integration</span>
-            </h2>
-          </div>
-          <div className="space-y-4">
-            {[
-              { layer: '0G Storage', role: 'Core persistence layer — every context blob lives here. Encrypted, decentralized, permanent.', status: 'CORE', color: '#00d4ff' },
-              { layer: '0G Compute (Sealed Inference)', role: 'Context encryption/decryption inside TEE hardware. No one reads your data — not even the node operator.', status: 'CORE', color: '#8b5cf6' },
-              { layer: '0G Chain', role: 'Context ownership as ERC-721 NFTs. Transfer, revoke, or license access on-chain.', status: 'CORE', color: '#10b981' },
-              { layer: '0G DA', role: 'Every access event logged permanently. Who read your context, when, with what agent.', status: 'CORE', color: '#f59e0b' },
-            ].map((item, i) => (
-              <div key={i} className="card-glow rounded-xl p-5 flex items-center gap-5" style={{ background: '#0d1526' }}>
-                <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: item.color, boxShadow: `0 0 8px ${item.color}` }} />
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-1">
-                    <span className="font-bold" style={{ color: item.color }}>{item.layer}</span>
-                    <span className="text-xs px-2 py-0.5 rounded" style={{ background: `${item.color}20`, color: item.color, border: `1px solid ${item.color}40` }}>
-                      {item.status}
-                    </span>
-                  </div>
-                  <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.9rem' }}>{item.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-24 px-6 text-center" style={{ background: '#080e1b' }}>
-        <div className="max-w-3xl mx-auto">
+          {/* subtle grid overlay */}
           <div
-            className="rounded-3xl p-12"
+            className="absolute inset-0 z-0 pointer-events-none opacity-40"
             style={{
-              background: 'linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(139,92,246,0.08) 100%)',
-              border: '1px solid rgba(0,212,255,0.2)',
+              backgroundImage:
+                'linear-gradient(rgba(11,27,46,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(11,27,46,0.05) 1px, transparent 1px)',
+              backgroundSize: '48px 48px',
             }}
+          />
+
+          {/* Title — top left */}
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="absolute top-7 left-7 sm:top-10 sm:left-10 z-10 max-w-[70%] pointer-events-none"
           >
-            <h2 className="font-black text-4xl md:text-5xl mb-4" style={{ color: 'white' }}>
-              Your agents. <span className="gradient-text">One memory.</span>
-            </h2>
-            <p className="text-lg mb-10" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              Stop losing context every time you switch models.
-              Store your first agent memory on 0G right now.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/store">
-                <button className="btn-primary text-lg px-10 py-4">
-                  Store Your First Context →
-                </button>
-              </Link>
-              <Link href="/marketplace">
-                <button className="btn-secondary text-lg px-10 py-4">
-                  Browse Public Contexts
-                </button>
-              </Link>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="h-px w-8 bg-[#0B1B2E]" />
+              <span className="text-[#0B1B2E] font-bold tracking-[0.25em] text-[10px] sm:text-[11px] opacity-70">
+                0G GALILEO · PORTABLE AI MEMORY
+              </span>
             </div>
+            <span className="inline-block bg-[#0B1B2E] text-[#E6F0FF] px-4 sm:px-5 py-1.5 sm:py-2 rounded-2xl text-4xl sm:text-7xl font-black leading-none mb-3">
+              0G MIND
+            </span>
+            <p className="text-[#0B1B2E] text-2xl sm:text-5xl font-black leading-[0.95] opacity-80">One Blob ID.</p>
+            <p className="text-[#0B1B2E] text-2xl sm:text-5xl font-black leading-[0.95] opacity-80">Any Agent. Forever.</p>
+          </motion.div>
+
+          {/* Content / CTA card — bottom right */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="absolute bottom-7 right-4 left-4 sm:left-auto sm:bottom-10 sm:right-10 z-10 sm:w-[380px]"
+          >
+            <p className="inline-block text-[#0B1B2E] bg-[#0B1B2E]/5 px-4 py-1 rounded-full text-sm font-semibold mb-2">
+              Memory that outlives the model
+            </p>
+            <p className="text-[#0B1B2E]/80 text-[13px] leading-relaxed mb-4">
+              Store any AI agent&apos;s context on <span className="font-bold text-[#0B1B2E]">0G Storage</span>.
+              Hand off a single <span className="font-bold text-[#0B1B2E]">blob ID</span> and any model instantly
+              inherits the full memory — encrypted, owned on-chain, and portable forever.
+            </p>
+            <Link href="/store">
+              <button className="w-full bg-[#0B1B2E] text-[#E6F0FF] py-3 rounded-full font-black text-lg tracking-wide hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M4 4h16v4H4zM4 10h16v10H4zm3 3v4h10v-4z" opacity="0.9" />
+                </svg>
+                STORE CONTEXT
+              </button>
+            </Link>
+            <div className="flex gap-2 mt-2">
+              <Link
+                href="/load"
+                className="flex-1 text-center bg-white/70 border border-[#0B1B2E]/15 text-[#0B1B2E] py-2 rounded-full text-xs font-bold hover:bg-white transition-colors"
+              >
+                LOAD CONTEXT
+              </Link>
+              <a
+                href={CONTRACT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 text-center bg-white/70 border border-[#0B1B2E]/15 text-[#0B1B2E] py-2 rounded-full text-xs font-bold hover:bg-white transition-colors"
+              >
+                CONTRACT ↗
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Footer pill — bottom left */}
+          <div className="hidden sm:flex absolute bottom-4 left-7 sm:left-10 z-10 items-center gap-2 text-[11px] text-[#0B1B2E]/60">
+            <span>Powered by</span>
+            <Mark size={14} />
+            <span className="font-bold">0G</span>
+            <span>· 2 GB/s storage · sub-second finality</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ════════════════ HOW IT WORKS ════════════════ */}
+      <section className="px-6 sm:px-10 py-20 bg-[#E6F0FF]">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="h-px w-8 bg-[#0B1B2E]" />
+            <span className="text-[#0091ff] font-bold tracking-[0.25em] text-[11px]">THE PROTOCOL</span>
+          </div>
+          <h2 className="text-[#0B1B2E] text-4xl sm:text-5xl font-black mb-12">How it works</h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { step: '01', title: 'Paste your context', desc: 'Drop in any AI conversation, system prompt, or agent memory.' },
+              { step: '02', title: 'Store on 0G', desc: 'Encrypted and written to 0G Storage. You get a unique blob ID.' },
+              { step: '03', title: 'Mint ownership', desc: 'A context NFT is minted on 0G Chain. You own the memory.' },
+              { step: '04', title: 'Load anywhere', desc: 'Any agent loads the blob ID and inherits the full context instantly.' },
+            ].map((item) => (
+              <div
+                key={item.step}
+                className="rounded-3xl border-[3px] border-[#0B1B2E] bg-white/70 p-6 hover:bg-white transition-colors"
+              >
+                <div className="text-[#0091ff] font-black text-5xl mb-4 font-mono opacity-90">{item.step}</div>
+                <h3 className="text-[#0B1B2E] font-black text-lg mb-2">{item.title}</h3>
+                <p className="text-[#0B1B2E]/65 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 px-6 text-center" style={{ borderTop: '1px solid rgba(0,212,255,0.1)' }}>
-        <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.85rem' }}>
-          0GMind · Built on{' '}
-          <a href="https://0g.ai" target="_blank" rel="noopener noreferrer" style={{ color: '#00d4ff' }}>0G</a>
-          {' '}· Galileo Testnet · Zero Cup 2026
-        </p>
-      </footer>
+      {/* ════════════════ 0G STACK ════════════════ */}
+      <section className="px-6 sm:px-10 py-20 bg-[#DCE8FF]">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="h-px w-8 bg-[#0B1B2E]" />
+            <span className="text-[#0091ff] font-bold tracking-[0.25em] text-[11px]">THE 0G STACK</span>
+          </div>
+          <h2 className="text-[#0B1B2E] text-4xl sm:text-5xl font-black mb-3">Built on every layer</h2>
+          <p className="text-[#0B1B2E]/60 text-base mb-12 max-w-xl">
+            0G Mind is not a bolt-on. Remove any layer and the product breaks.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {[
+              { layer: '0G Storage', role: 'Every context blob lives here. Encrypted, decentralized, permanent.', icon: '🗄️' },
+              { layer: '0G Compute', role: 'Sealed inference inside a TEE. No one reads your data — not even node operators.', icon: '🔒' },
+              { layer: '0G Chain', role: 'Context ownership as ERC-721 NFTs. Transfer, license, or revoke on-chain.', icon: '⛓️' },
+              { layer: '0G DA', role: 'Every access logged permanently. Full audit trail of who used your memory.', icon: '📊' },
+            ].map((item) => (
+              <div
+                key={item.layer}
+                className="rounded-3xl border-[3px] border-[#0B1B2E] bg-white/70 p-6 flex items-start gap-4 hover:bg-white transition-colors"
+              >
+                <div className="text-2xl w-12 h-12 flex items-center justify-center rounded-2xl bg-[#0091ff]/10 border border-[#0091ff]/25 shrink-0">
+                  {item.icon}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[#0B1B2E] font-black">{item.layer}</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#0091ff]/15 text-[#0091ff] border border-[#0091ff]/30">CORE</span>
+                  </div>
+                  <p className="text-[#0B1B2E]/65 text-sm leading-relaxed">{item.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════ CTA ════════════════ */}
+      <section className="px-6 sm:px-10 py-20 bg-[#E6F0FF]">
+        <div className="max-w-5xl mx-auto rounded-[32px] border-[6px] border-[#0B1B2E] bg-[#CFE2FF] p-10 sm:p-16 text-center relative overflow-hidden">
+          <div
+            className="absolute inset-0 opacity-40 pointer-events-none"
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(11,27,46,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(11,27,46,0.05) 1px, transparent 1px)',
+              backgroundSize: '40px 40px',
+            }}
+          />
+          <h2 className="relative text-[#0B1B2E] text-4xl sm:text-6xl font-black leading-none mb-4">
+            Your agents.<br />One memory.
+          </h2>
+          <p className="relative text-[#0B1B2E]/70 text-base sm:text-lg mb-8 max-w-lg mx-auto">
+            Stop losing context every time you switch models. Store your first agent memory on 0G right now.
+          </p>
+          <div className="relative flex flex-wrap justify-center gap-3">
+            <Link href="/store">
+              <button className="bg-[#0B1B2E] text-[#E6F0FF] px-8 py-4 rounded-full font-black text-lg hover:opacity-90 transition-opacity">
+                Store Your First Context →
+              </button>
+            </Link>
+            <Link href="/marketplace">
+              <button className="bg-white/70 border border-[#0B1B2E]/20 text-[#0B1B2E] px-8 py-4 rounded-full font-black text-lg hover:bg-white transition-colors">
+                Browse Marketplace
+              </button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="max-w-5xl mx-auto mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[#0B1B2E]/50 text-sm">
+          <div className="flex items-center gap-2">
+            <Mark size={18} />
+            <span className="font-bold text-[#0B1B2E]/70">0G Mind</span>
+          </div>
+          <span>Built on 0G · Galileo Testnet · Zero Cup 2026</span>
+        </div>
+      </section>
     </div>
   );
 }
