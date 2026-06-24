@@ -35,16 +35,8 @@ export default function HomePage() {
           className="absolute inset-4 sm:inset-6 rounded-[28px] border-[6px] border-[#0B1B2E] overflow-hidden shadow-2xl"
           style={{ background: 'linear-gradient(160deg, #DCE9FF 0%, #CFE2FF 100%)' }}
         >
-          {/* ── Navbar inside the box ── */}
-          <header className="absolute top-0 inset-x-0 z-30 flex items-center justify-between px-4 sm:px-7 h-14 sm:h-16">
-            <Link href="/" className="flex items-center gap-2">
-              <Mark size={22} />
-              <span className="font-black tracking-widest text-[#0B1B2E] text-[11px] sm:text-xs">0G MIND</span>
-              <span className="hidden sm:inline-block text-[#0091ff] text-[9px] font-mono px-1.5 py-0.5 rounded-full border border-[#0B1B2E]/25 bg-white/60">
-                GALILEO
-              </span>
-            </Link>
-
+          {/* ── Navbar inside the box (page buttons only, top-right) ── */}
+          <header className="absolute top-0 inset-x-0 z-30 flex items-center justify-end px-4 sm:px-7 h-14 sm:h-16">
             <div className="flex items-center gap-2">
               <Link
                 href="/dashboard"
