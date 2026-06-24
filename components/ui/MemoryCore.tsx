@@ -5,10 +5,10 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Icosahedron, MeshDistortMaterial, Line, Sparkles, Float } from '@react-three/drei';
 import * as THREE from 'three';
 
-// 0G brand palette
-const PURPLE = '#9200E1';
-const PURPLE_LT = '#B75FFF';
-const PURPLE_DK = '#6B00A8';
+// Lavender / blue palette
+const BLUE = '#0091ff';
+const CYAN = '#00C2FF';
+const NAVY = '#0B1B2E';
 
 // Central crystalline "memory core" — a distorting purple icosahedron
 // wrapped in a slowly counter-rotating wireframe shell.
@@ -28,8 +28,8 @@ function Core() {
     <Float speed={1.6} rotationIntensity={0.4} floatIntensity={0.7}>
       <Icosahedron ref={inner} args={[1, 5]}>
         <MeshDistortMaterial
-          color={PURPLE}
-          emissive={PURPLE}
+          color={BLUE}
+          emissive={BLUE}
           emissiveIntensity={0.15}
           roughness={0.25}
           metalness={0.35}
@@ -38,7 +38,7 @@ function Core() {
         />
       </Icosahedron>
       <Icosahedron ref={shell} args={[1.55, 1]}>
-        <meshBasicMaterial color={PURPLE_DK} wireframe transparent opacity={0.35} />
+        <meshBasicMaterial color={NAVY} wireframe transparent opacity={0.35} />
       </Icosahedron>
     </Float>
   );
@@ -98,16 +98,16 @@ function Scene() {
     <>
       <ambientLight intensity={1.1} />
       <directionalLight position={[5, 6, 5]} intensity={2.4} color="#ffffff" />
-      <pointLight position={[-4, -2, 4]} intensity={40} color={PURPLE_LT} />
+      <pointLight position={[-4, -2, 4]} intensity={40} color={CYAN} />
 
       <group ref={root}>
         <Core />
-        <Ring radius={2.3} tilt={0.55} color={PURPLE} speed={0.35} count={2} />
-        <Ring radius={3.0} tilt={-0.35} color={PURPLE_LT} speed={-0.26} count={1} />
-        <Ring radius={3.7} tilt={0.95} color={PURPLE_DK} speed={0.18} count={2} />
+        <Ring radius={2.3} tilt={0.55} color={BLUE} speed={0.35} count={2} />
+        <Ring radius={3.0} tilt={-0.35} color={CYAN} speed={-0.26} count={1} />
+        <Ring radius={3.7} tilt={0.95} color={NAVY} speed={0.18} count={2} />
       </group>
 
-      <Sparkles count={60} scale={11} size={3} speed={0.3} color={PURPLE} opacity={0.7} />
+      <Sparkles count={60} scale={11} size={3} speed={0.3} color={BLUE} opacity={0.7} />
     </>
   );
 }
