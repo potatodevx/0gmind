@@ -74,7 +74,7 @@ export default function HomePage() {
             initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="absolute top-20 left-5 sm:top-28 sm:left-10 z-10 max-w-[80%] pointer-events-none"
+            className="absolute top-7 left-5 sm:top-10 sm:left-10 z-10 max-w-[80%] pointer-events-none"
           >
             <div className="flex items-center gap-2 mb-4">
               <span className="h-px w-8 bg-[#0B1B2E]" />
