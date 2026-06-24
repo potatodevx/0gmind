@@ -36,7 +36,7 @@ export default function HomePage() {
   return (
     <div className="bg-[#E6F0FF]">
       {/* ════════════════ HERO SCREEN (Monad-style bordered card) ════════════════ */}
-      <div className="relative h-screen w-screen overflow-hidden bg-[#E6F0FF]">
+      <div className="relative h-screen w-full overflow-hidden bg-[#E6F0FF]">
         {/* ── Top navbar ── */}
         <header className="absolute top-0 inset-x-0 z-30 flex items-center justify-between px-6 sm:px-10 h-[76px]">
           <Link href="/" className="flex items-center gap-2.5">
@@ -66,7 +66,7 @@ export default function HomePage() {
         {/* ── Hero card ── */}
         <div className="absolute inset-x-4 sm:inset-x-8 top-[84px] bottom-6 rounded-[28px] border-[6px] border-[#0B1B2E] bg-[#CFE2FF] overflow-hidden shadow-2xl">
           {/* Animated memory visualization */}
-          <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 z-0 scale-[0.6] sm:scale-90 lg:scale-100 origin-center">
             <MemoryScene />
           </div>
 

@@ -1,30 +1,33 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
-import Navbar from '@/components/ui/Navbar';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Navbar from "@/components/ui/Navbar";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: '0GMind — Portable AI Memory on 0G',
+  title: "0GMind — Portable AI Memory on 0G",
   description:
-    'Store, share, and transfer AI agent memory across any model or platform. Built on 0G Storage, Sealed Inference, and on-chain ownership.',
-  keywords: ['AI', '0G', 'blockchain', 'AI memory', 'agent', 'portable context'],
+    "Store, share, and transfer AI agent memory across any model. Built on 0G Storage, Sealed Inference, and on-chain ownership.",
+  keywords: ["AI", "0G", "blockchain", "AI memory", "agent", "portable context"],
   openGraph: {
-    title: '0GMind — Portable AI Memory on 0G',
-    description: 'Portable AI memory. One blob ID. Any agent. Forever.',
-    type: 'website',
+    title: "0GMind — Portable AI Memory on 0G",
+    description: "Portable AI memory. One blob ID. Any agent. Forever.",
+    type: "website",
   },
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en">
-      <body className={inter.className} style={{ background: '#050a14' }}>
+    <html lang="en" className={`${inter.variable} antialiased`}>
+      <body>
         <Navbar />
         <main>{children}</main>
       </body>
