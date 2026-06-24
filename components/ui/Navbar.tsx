@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { IconMenu, IconClose } from '@/components/ui/icons';
 
 const NAV_LINKS = [
   { href: '/store', label: 'Store' },
@@ -80,7 +81,7 @@ export default function Navbar() {
           style={{ color: '#0091ff' }}
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          {menuOpen ? '✕' : '☰'}
+          {menuOpen ? <IconClose size={22} /> : <IconMenu size={22} />}
         </button>
       </div>
 

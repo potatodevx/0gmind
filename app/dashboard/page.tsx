@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useContextRegistry } from '@/components/chain/useContextRegistry';
 import type { OnChainContext } from '@/components/chain/useContextRegistry';
+import { IconPlug, IconLink, IconDatabase } from '@/components/ui/icons';
 
 const EXPLORER = process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://chainscan-galileo.0g.ai';
 const CONTRACT = process.env.NEXT_PUBLIC_CONTEXT_REGISTRY_ADDRESS || '';
@@ -116,7 +117,7 @@ export default function DashboardPage() {
         {/* Wallet section */}
         {!account ? (
           <div className="rounded-2xl p-6 mb-8 text-center" style={{ background: '#ffffff', border: '1px solid rgba(245,158,11,0.3)' }}>
-            <div className="text-3xl mb-3">🔗</div>
+            <div className="mb-3 flex justify-center" style={{ color: '#d97706' }}><IconPlug size={30} /></div>
             <div className="font-bold text-lg mb-2" style={{ color: '#d97706' }}>Connect to see your on-chain NFTs</div>
             <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem', marginBottom: '20px' }}>
               Connect MetaMask to view contexts you own on 0G Chain
@@ -141,9 +142,9 @@ export default function DashboardPage() {
         {/* On-chain NFTs */}
         {account && (
           <section className="mb-10">
-            <h2 className="font-bold text-lg mb-4" style={{ color: '#0B1B2E' }}>
-              ⛓️ Your On-Chain Context NFTs
-              <span className="ml-2 text-sm font-normal" style={{ color: 'rgba(11,27,46,0.45)' }}>(0G Chain)</span>
+            <h2 className="font-bold text-lg mb-4 flex items-center gap-2" style={{ color: '#0B1B2E' }}>
+              <IconLink size={18} /> Your On-Chain Context NFTs
+              <span className="text-sm font-normal" style={{ color: 'rgba(11,27,46,0.45)' }}>(0G Chain)</span>
             </h2>
 
             {loading ? (
@@ -227,9 +228,9 @@ export default function DashboardPage() {
 
         {/* API/public contexts */}
         <section>
-          <h2 className="font-bold text-lg mb-4" style={{ color: '#0B1B2E' }}>
-            🗄️ Public Contexts
-            <span className="ml-2 text-sm font-normal" style={{ color: 'rgba(11,27,46,0.45)' }}>(0G Storage)</span>
+          <h2 className="font-bold text-lg mb-4 flex items-center gap-2" style={{ color: '#0B1B2E' }}>
+            <IconDatabase size={18} /> Public Contexts
+            <span className="text-sm font-normal" style={{ color: 'rgba(11,27,46,0.45)' }}>(0G Storage)</span>
           </h2>
           {apiContexts.length === 0 ? (
             <div className="rounded-xl p-6 text-center" style={{ background: '#ffffff', border: '1px solid rgba(11,27,46,0.1)' }}>

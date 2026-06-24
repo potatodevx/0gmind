@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { StorageIcon, ComputeIcon, ChainIcon, DAIcon } from '@/components/ui/icons';
 
 const MemoryCore = dynamic(
   () => import('@/components/ui/MemoryCore').then((m) => ({ default: m.MemoryCore })),
@@ -177,14 +178,14 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {[
-              { layer: '0G Storage', role: 'Every context blob lives here. Encrypted, decentralized, permanent.', icon: '🗄️' },
-              { layer: '0G Compute', role: 'Sealed inference inside a TEE. No one reads your data — not even node operators.', icon: '🔒' },
-              { layer: '0G Chain', role: 'Context ownership as ERC-721 NFTs. Transfer, license, or revoke on-chain.', icon: '⛓️' },
-              { layer: '0G DA', role: 'Every access logged permanently. Full audit trail of who used your memory.', icon: '📊' },
+              { layer: '0G Storage', role: 'Every context blob lives here. Encrypted, decentralized, permanent.', Icon: StorageIcon },
+              { layer: '0G Compute', role: 'Sealed inference inside a TEE. No one reads your data — not even node operators.', Icon: ComputeIcon },
+              { layer: '0G Chain', role: 'Context ownership as ERC-721 NFTs. Transfer, license, or revoke on-chain.', Icon: ChainIcon },
+              { layer: '0G DA', role: 'Every access logged permanently. Full audit trail of who used your memory.', Icon: DAIcon },
             ].map((item) => (
               <div key={item.layer} className="rounded-3xl border-[3px] border-[#0B1B2E] bg-white/70 p-6 flex items-start gap-4 hover:bg-white transition-colors">
-                <div className="text-2xl w-12 h-12 flex items-center justify-center rounded-2xl bg-[#0091ff]/10 border border-[#0091ff]/25 shrink-0">
-                  {item.icon}
+                <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-[#0091ff]/10 border border-[#0091ff]/25 shrink-0">
+                  <item.Icon size={28} />
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-1">

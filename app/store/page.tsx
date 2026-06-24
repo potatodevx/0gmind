@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useContextRegistry } from '@/components/chain/useContextRegistry';
+import { IconDatabase, IconLock, IconGlobe, IconCheck, IconHash, IconLink } from '@/components/ui/icons';
 
 const MODELS = ['Claude Sonnet 4.5', 'GPT-4o', 'Gemini 1.5 Pro', 'GLM-5', 'Llama 3.1', 'Mistral Large', 'Custom'];
 const EXPLORER = process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://chainscan-galileo.0g.ai';
@@ -216,8 +217,9 @@ export default function StorePage() {
             {/* Privacy toggle */}
             <div className="flex items-center justify-between rounded-xl p-5" style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.15)' }}>
               <div>
-                <div className="font-semibold mb-0.5" style={{ color: '#0B1B2E' }}>
-                  {isPublic ? '🌐 Public' : '🔒 Private (Sealed Inference)'}
+                <div className="font-semibold mb-0.5 flex items-center gap-2" style={{ color: '#0B1B2E' }}>
+                  {isPublic ? <IconGlobe size={16} /> : <IconLock size={16} />}
+                  {isPublic ? 'Public' : 'Private (Sealed Inference)'}
                 </div>
                 <p style={{ fontSize: '0.85rem', color: 'rgba(11,27,46,0.5)' }}>
                   {isPublic ? 'Visible in marketplace. Anyone can load.' : 'Encrypted in 0G TEE. Only you can access.'}
@@ -275,7 +277,7 @@ export default function StorePage() {
               {step !== 'idle' ? (
                 <><span className="spinner inline-block w-5 h-5 border-2 rounded-full" style={{ borderColor: '#E6F0FF', borderTopColor: 'transparent' }} /> Processing...</>
               ) : (
-                <>🗄️ Store on 0G + Mint NFT</>
+                <><IconDatabase size={18} /> Store on 0G + Mint NFT</>
               )}
             </button>
           </div>
@@ -286,7 +288,7 @@ export default function StorePage() {
           <div className="space-y-5 fade-in-up">
             {/* Success */}
             <div className="rounded-2xl p-6 text-center" style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.3)' }}>
-              <div className="text-4xl mb-3">✅</div>
+              <div className="mb-3 flex justify-center" style={{ color: '#059669' }}><IconCheck size={40} /></div>
               <div className="font-black text-xl mb-1" style={{ color: '#059669' }}>Context Stored & Minted!</div>
               <p style={{ color: 'rgba(11,27,46,0.55)', fontSize: '0.9rem' }}>
                 Stored on 0G Storage {result.mintTxHash ? '+ minted as NFT on 0G Chain' : '(wallet not connected — no NFT minted)'}
@@ -296,7 +298,7 @@ export default function StorePage() {
             {/* Blob ID */}
             <div className="rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.3)' }}>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold" style={{ color: '#0091ff' }}>🆔 BLOB ID (0G Storage Root Hash)</span>
+                <span className="text-xs font-bold inline-flex items-center gap-1.5" style={{ color: '#0091ff' }}><IconHash size={13} /> BLOB ID (0G Storage Root Hash)</span>
                 <button onClick={() => copy(result.contextId, 'blob')} className="text-xs px-3 py-1 rounded-lg" style={{ background: copied === 'blob' ? 'rgba(16,185,129,0.2)' : 'rgba(0,145,255,0.1)', color: copied === 'blob' ? '#059669' : '#0091ff', border: `1px solid ${copied === 'blob' ? 'rgba(16,185,129,0.4)' : 'rgba(0,145,255,0.3)'}` }}>
                   {copied === 'blob' ? '✓ Copied' : 'Copy'}
                 </button>
@@ -307,7 +309,7 @@ export default function StorePage() {
             {/* Chain details */}
             {result.mintTxHash && (
               <div className="rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid rgba(139,92,246,0.3)' }}>
-                <div className="text-xs font-bold mb-3" style={{ color: '#8b5cf6' }}>⛓️ ON-CHAIN OWNERSHIP (0G Chain)</div>
+                <div className="text-xs font-bold mb-3 inline-flex items-center gap-1.5" style={{ color: '#8b5cf6' }}><IconLink size={13} /> ON-CHAIN OWNERSHIP (0G Chain)</div>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span style={{ fontSize: '0.8rem', color: 'rgba(11,27,46,0.55)' }}>Token ID</span>
@@ -334,7 +336,7 @@ export default function StorePage() {
               {[
                 { label: 'Size', value: `${(result.size / 1024).toFixed(1)} KB` },
                 { label: 'Tokens', value: `~${result.tokenCount.toLocaleString()}` },
-                { label: 'Privacy', value: result.encrypted ? '🔒 Private' : '🌐 Public' },
+                { label: 'Privacy', value: result.encrypted ? (<span className="inline-flex items-center justify-center gap-1"><IconLock size={12} /> Private</span>) : (<span className="inline-flex items-center justify-center gap-1"><IconGlobe size={12} /> Public</span>) },
                 { label: 'Network', value: '0G Galileo' },
               ].map((m, i) => (
                 <div key={i} className="rounded-xl p-3 text-center" style={{ background: '#F2F7FF', border: '1px solid rgba(0,145,255,0.1)' }}>

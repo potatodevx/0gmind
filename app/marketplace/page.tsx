@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { IconGlobe } from '@/components/ui/icons';
 
 interface PublicContext {
   contextId: string;
@@ -99,7 +100,7 @@ export default function MarketplacePage() {
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-20">
-            <div className="text-5xl mb-4">🌐</div>
+            <div className="mb-4 flex justify-center" style={{ color: '#0091ff' }}><IconGlobe size={44} /></div>
             <div className="font-bold text-xl mb-2" style={{ color: 'rgba(11,27,46,0.55)' }}>
               {search || filter !== 'All' ? 'No matching contexts' : 'Marketplace is empty'}
             </div>

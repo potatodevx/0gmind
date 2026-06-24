@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { IconBox, IconChat, IconLock, IconGlobe } from '@/components/ui/icons';
 
 const MODELS = ['Claude Sonnet 4.5', 'GPT-4o', 'Gemini 1.5 Pro', 'GLM-5', 'Llama 3.1', 'Custom'];
 
@@ -161,7 +162,7 @@ function LoadContextContent() {
           <div className="space-y-5 fade-in-up">
             {/* Success Banner */}
             <div className="rounded-2xl p-5 flex items-center gap-4" style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.25)' }}>
-              <div className="text-3xl">📦</div>
+              <div style={{ color: '#059669' }}><IconBox size={30} /></div>
               <div>
                 <div className="font-bold" style={{ color: '#059669' }}>Context Loaded from 0G Storage</div>
                 <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.85rem' }}>
@@ -174,7 +175,7 @@ function LoadContextContent() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {[
                 { label: 'Source Model', value: context.metadata.model },
-                { label: 'Privacy', value: context.metadata.isPublic ? '🌐 Public' : '🔒 Private' },
+                { label: 'Privacy', value: context.metadata.isPublic ? (<span className="inline-flex items-center gap-1"><IconGlobe size={12} /> Public</span>) : (<span className="inline-flex items-center gap-1"><IconLock size={12} /> Private</span>) },
                 { label: 'Description', value: context.metadata.description || '—' },
                 { label: 'Network', value: '0G Galileo' },
               ].map((m, i) => (
@@ -208,7 +209,7 @@ function LoadContextContent() {
             {/* Chat with Context */}
             <div className="rounded-2xl p-6" style={{ background: '#ffffff', border: '1px solid rgba(139,92,246,0.3)' }}>
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm font-bold" style={{ color: '#8b5cf6' }}>💬 CHAT USING THIS CONTEXT (via 0G Compute)</span>
+                <span className="text-sm font-bold inline-flex items-center gap-1.5" style={{ color: '#8b5cf6' }}><IconChat size={15} /> CHAT USING THIS CONTEXT (via 0G Compute)</span>
               </div>
               <div className="flex gap-3 mb-4">
                 <input
