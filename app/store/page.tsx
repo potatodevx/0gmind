@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useContextRegistry } from '@/components/chain/useContextRegistry';
 import { IconDatabase, IconLock, IconGlobe, IconCheck, IconHash, IconLink } from '@/components/ui/icons';
 
-const MODELS = ['Claude Sonnet 4.5', 'GPT-4o', 'Gemini 1.5 Pro', 'GLM-5', 'Llama 3.1', 'Mistral Large', 'Custom'];
+const MODELS = ['GLM-5 (0G Compute)', 'Claude Sonnet 4.5', 'GPT-4o', 'Gemini 1.5 Pro', 'Llama 3.1', 'Mistral Large', 'Custom'];
 const EXPLORER = process.env.NEXT_PUBLIC_EXPLORER_URL || 'https://chainscan-galileo.0g.ai';
 
 type Step = 'idle' | 'storing' | 'minting' | 'done';
@@ -14,7 +14,7 @@ export default function StorePage() {
   const { account, connecting, connectWallet, mintContext, checkConnection, contractAddress } = useContextRegistry();
 
   const [content, setContent] = useState('');
-  const [model, setModel] = useState('Claude Sonnet 4.5');
+  const [model, setModel] = useState('GLM-5 (0G Compute)');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [step, setStep] = useState<Step>('idle');
@@ -189,13 +189,18 @@ export default function StorePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold mb-2" style={{ color: 'rgba(11,27,46,0.7)' }}>AI Model</label>
+                <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: 'rgba(11,27,46,0.7)' }}>
+                  AI Model
+                  <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(0,145,255,0.12)', color: '#0091ff' }}>
+                    runs on 0G Compute
+                  </span>
+                </label>
                 <select
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
                   disabled={step !== 'idle'}
-                  className="w-full rounded-xl p-3 text-sm focus:outline-none"
-                  style={{ background: '#ffffff', border: '1px solid rgba(0,145,255,0.2)', color: 'rgba(11,27,46,0.85)' }}
+                  className="w-full rounded-xl p-3 text-sm focus:outline-none font-medium"
+                  style={{ background: '#ffffff', border: '2px solid rgba(0,145,255,0.35)', color: 'rgba(11,27,46,0.85)' }}
                 >
                   {MODELS.map((m) => <option key={m} value={m} style={{ background: '#ffffff' }}>{m}</option>)}
                 </select>
