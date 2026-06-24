@@ -33,7 +33,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-3">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm"
-            style={{ background: 'linear-gradient(135deg, #0091ff, #8b5cf6)', color: 'white' }}
+            style={{ background: '#0B1B2E', color: 'white' }}
           >
             0G
           </div>

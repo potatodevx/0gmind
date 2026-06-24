@@ -93,7 +93,7 @@ function LoadContextContent() {
             ← Back to home
           </Link>
           <h1 className="font-black text-4xl mb-3" style={{ color: '#0B1B2E' }}>
-            Load <span className="gradient-text">Context</span>
+            Load <span style={{ color: '#0091ff' }}>Context</span>
           </h1>
           <p style={{ color: 'rgba(11,27,46,0.55)', fontSize: '1.05rem' }}>
             Enter a blob ID to load any agent context from 0G Storage into any model.

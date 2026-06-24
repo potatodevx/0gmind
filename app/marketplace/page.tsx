@@ -58,7 +58,7 @@ export default function MarketplacePage() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="font-black text-5xl mb-4" style={{ color: '#0B1B2E' }}>
-            Context <span className="gradient-text">Marketplace</span>
+            Context <span style={{ color: '#0091ff' }}>Marketplace</span>
           </h1>
           <p style={{ color: 'rgba(11,27,46,0.55)', fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto' }}>
             Browse public agent contexts stored on 0G. Load any context into your preferred AI model instantly.

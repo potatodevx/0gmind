@@ -120,7 +120,7 @@ export default function StorePage() {
         <div className="mb-8">
           <Link href="/" className="text-sm mb-4 inline-flex items-center gap-2" style={{ color: 'rgba(11,27,46,0.5)' }}>← Back</Link>
           <h1 className="font-black text-4xl mb-2" style={{ color: '#0B1B2E' }}>
-            Store <span className="gradient-text">Context</span>
+            Store <span style={{ color: '#0091ff' }}>Context</span>
           </h1>
           <p style={{ color: 'rgba(11,27,46,0.55)' }}>
             Paste your AI conversation. It gets stored on 0G Storage and minted as an NFT on 0G Chain.
@@ -294,7 +294,7 @@ export default function StorePage() {
             {/* Success */}
             <div className="rounded-2xl p-6 text-center" style={{ background: 'rgba(0,145,255,0.07)', border: '1px solid rgba(0,145,255,0.2)' }}>
               <div className="mb-3 flex justify-center" style={{ color: '#0091ff' }}><IconCheck size={40} /></div>
-              <div className="font-black text-xl mb-1 gradient-text">Context Stored & Minted!</div>
+              <div className="font-black text-xl mb-1" style={{ color: '#0091ff' }}>Context Stored & Minted!</div>
               <p style={{ color: 'rgba(11,27,46,0.55)', fontSize: '0.9rem' }}>
                 Stored on 0G Storage {result.mintTxHash ? '+ minted as NFT on 0G Chain' : '(wallet not connected — no NFT minted)'}
               </p>

@@ -83,7 +83,7 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="font-black text-4xl mb-1" style={{ color: '#0B1B2E' }}>
-              <span className="gradient-text">Dashboard</span>
+              <span style={{ color: '#0B1B2E' }}>Dashboard</span>
             </h1>
             <p style={{ color: 'rgba(11,27,46,0.5)', fontSize: '0.9rem' }}>
               Contract:{' '}
